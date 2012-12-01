@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="ja" lang="ja" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>fruit shop sample for mixer2 and SpringMVC</title>
+<link rel="stylesheet" type="text/css" href="../../m2static/css/main.css" media="all" />
+</head>
+<body>
+  <div id="header">
+    <a class="topPageAnchor" href="../../m2template/index.html"><img
+      src="../../m2static/img/fruitshop-logo.png" /></a>
+  </div>
+  <div id="content">
+    <div id="checkoutFlow">
+      Cart &gt; <span style="font-weight: bold; color: red;">Shipping information</span> &gt;
+      Confirmation &gt; Checkout complete
+    </div>
+    <h1>Input shipping information</h1>
+    <form id="shippingForm" method="post" action="confirm.html">
+      <table style="margin: 8px;">
+        <tr>
+          <td>Your first name</td>
+          <td>
+            <input type="text" id="firstName" name="firstName" style="width: 10em;" value="Michel" />
+            <span class="errorMessage firstName">here comes error message</span>
+            </td>
+        </tr>
+        <tr>
+          <td>Your last name</td>
+          <td>
+            <input type="text" id="lastName" name="lastName" style="width: 10em;" value="Jackson" />
+            <span class="errorMessage lastName">here comes error message</span>
+          </td>
+        </tr>
+        <tr>
+          <td>Zip code</td>
+          <td>
+            <input type="text" id="zipCode" name="zipCode" style="width: 5em;" value="12345" />
+            <span class="errorMessage zipCode">here comes error message</span>
+          </td>
+        </tr>
+        <tr>
+          <td>Address</td>
+          <td>
+            <input type="text" id="address" name="address" style="width: 30em;" value="1-1 NeverLand CA" />
+            <span class="errorMessage address">here comes error message</span>
+          </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td><input type="submit" value="go to confirmation" /><br />
+          <a id="backToCartAnchorLink" href="../../m2template/cart.html">back to cart</a></td>
+        </tr>
+      </table>
+    </form>
+  </div>
+  <div id="footer">
+    fruits shop sample application for <a href="http://mixer2.org/">mixer2</a> and Spring MVC
+  </div>
+</body>
+</html>

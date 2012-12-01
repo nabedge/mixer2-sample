@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="ja" lang="ja" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>fruit shop sample for mixer2 and SpringMVC</title>
+<link rel="stylesheet" type="text/css" href="../m2static/css/main.css" media="all" />
+</head>
+<body>
+  <div id="header">
+    <a class="topPageAnchor" href="../m2template/index.html"><img
+      src="../m2static/img/fruitshop-logo.png" /></a>
+  </div>
+  <div id="content">
+    <div id="checkoutFlow">
+      <span style="font-weight: bold; color: red;">Cart</span> &gt; Shipping information &gt;
+      Confirmation &gt; Checkout complete
+    </div>
+    <h1>Your shopping cart</h1>
+    <div id="emptyCart" style="color:red;">
+        There are no item in cart.
+    </div>
+    <form id="cartForm" method="post" action="checkout/shipping.html">
+      <table id="cartTable" style="float: left; margin: 8px;">
+        <thead>
+          <tr>
+            <th>image</th>
+            <th>item name</th>
+            <th>price</th>
+            <th>amount</th>
+          </tr>
+        </thead>
+        <tbody id="cartTbody">
+          <tr>
+            <td><img src="../m2static/img/dummy-img-120x120.png"
+              style="width: 60px; height: 60px;" /></td>
+            <td><span class="itemName">banana</span></td>
+            <td>$ <span class="itemPrice">1.00</span></td>
+            <td><input class="itemAmount" type="text" name="amount[itemId]" value="2"
+              style="width: 2em;" /></td>
+          </tr>
+          <tr>
+            <td><img src="../m2static/img/dummy-img-120x120.png"
+              style="width: 60px; height: 60px;" /></td>
+            <td><span class="itemName">apple</span></td>
+            <td>$ <span class="itemPrice">2.00</span></td>
+            <td><input class="itemAmount" type="text" name="amount[itemId]" value="2"
+              style="width: 2em;" /></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4" style="text-align: right;">
+              <input id="proceedToCheckout" type="image" src="../m2static/img/proceedToCheckout.png" style="margin:4px;" />
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </form>
+  </div>
+  <div id="footer">
+    fruits shop sample application for <a href="http://mixer2.org/">mixer2</a> and Spring MVC
+  </div>
+</body>
+</html>
