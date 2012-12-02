@@ -11,6 +11,10 @@
     sample web application for mixer2 with SAStruts (SuperAgileStruts).
     </description>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
     <build>
         <finalName>mixer2-fruitshop-sastruts</finalName>
         <plugins>

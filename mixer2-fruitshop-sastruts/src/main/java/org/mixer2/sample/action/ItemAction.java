@@ -56,18 +56,18 @@ public class ItemAction {
         File file = ResourceUtil.getResourceAsFile(mainTemplate);
         Html html = mixer2Engine.loadHtmlTemplate(file);
 
-        // replace static file path
-        M2staticHelper.replaceM2staticPath(html);
-
-        // embed category list on side bar
-        SectionHelper.rewriteSideBar(html, categoryService.getCategoryList());
-
         // get item data from database
         ItemDto item = itemService.getItem(Long
                 .valueOf(itemForm.itemId));
         
         // embed item boxes
         ItemHelper.replaceItemBox(html, item);
+
+        // replace static file path
+        M2staticHelper.replaceM2staticPath(html);
+
+        // embed category list on side bar
+        SectionHelper.rewriteSideBar(html, categoryService.getCategoryList());
 
         // header,footer
         SectionHelper.rewriteHeader(html);

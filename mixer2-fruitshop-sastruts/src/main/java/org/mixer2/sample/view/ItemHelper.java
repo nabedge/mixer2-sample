@@ -21,9 +21,6 @@ public class ItemHelper {
      */
     public static void replaceItemBox(Html html, ItemDto item) throws TagTypeUnmatchException {
 
-        // get contextPath
-        String ctx = RequestUtil.getRequest().getContextPath();
-
         // contet div
         Div itemBox = html.getBody().getById("itemBox", Div.class);
 
@@ -38,6 +35,7 @@ public class ItemHelper {
                 item.description);
 
         // addCart form
+        String ctx = RequestUtil.getRequest().getContextPath();
         Form addCartForm = itemBox.getById("addCartForm", Form.class);
         addCartForm.setAction(ctx + "/cart/add");
         Input input = new Input();
