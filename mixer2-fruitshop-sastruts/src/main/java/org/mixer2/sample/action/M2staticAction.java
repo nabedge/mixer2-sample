@@ -32,7 +32,7 @@ public class M2staticAction {
      * @return
      * @throws IOException
      */
-    @Execute(validator = false)
+    @Execute(validator = false, urlPattern = "m2static")
     public String outputImage() throws IOException {
 
         // create static file path
