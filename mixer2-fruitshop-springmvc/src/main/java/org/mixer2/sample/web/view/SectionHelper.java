@@ -2,8 +2,6 @@ package org.mixer2.sample.web.view;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.log4j.Logger;
 import org.mixer2.jaxb.xhtml.A;
 import org.mixer2.jaxb.xhtml.Div;
@@ -13,8 +11,6 @@ import org.mixer2.jaxb.xhtml.Ul;
 import org.mixer2.sample.dto.Category;
 import org.mixer2.sample.web.util.RequestUtil;
 import org.mixer2.xhtml.exception.TagTypeUnmatchException;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  * Helper class for handle sidebar of html template.
@@ -60,7 +56,6 @@ public class SectionHelper {
         ul.getLi().clear();
 
         // get context path.
-
         String contextPath = RequestUtil.getRequest().getContextPath();
 
         // add new li tags contains category name and anchor link
