@@ -1,5 +1,5 @@
-Mixer2 - Fruit shop sample application on SAStruts
-==================================================
+Mixer2 - Fruit shop sample application on SpringMVC
+===================================================
 
 Whats this?
 
