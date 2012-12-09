@@ -10,9 +10,9 @@ import org.mixer2.xhtml.exception.TagTypeUnmatchException;
 
 public class PageHelper {
 
-    public static void removeOtherLangTags(Html html, String lang) {
+    public static void removeOtherLangTags(Html html, Lang lang) {
         for (Lang l : Lang.values()) {
-            if (lang.equals(l.toString().toLowerCase())) {
+            if (l.equals(lang)) {
                 continue;
             }
             String target = "lang-" + l.toString().toLowerCase();
@@ -20,14 +20,14 @@ public class PageHelper {
         }
     }
 
-    public static void remakeLangList(Html html, String lang, String path)
+    public static void remakeLangList(Html html, Lang lang, String path)
             throws TagTypeUnmatchException {
 
         Ul langList = html.getById("langList", Ul.class);
         langList.getLi().clear();
         for (Lang l : Lang.values()) {
             Li li = new Li();
-            if (lang.equals(l.toString().toLowerCase())) {
+            if (l.equals(lang)) {
                 li.getContent().add(l.getName());
             } else {
                 A a = new A();

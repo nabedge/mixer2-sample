@@ -1,6 +1,5 @@
 package org.mixer2.sample.controller;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Locale;
 
@@ -28,18 +27,21 @@ public class PageController {
 
     private Logger logger = Logger.getLogger(PageController.class);
 
-    @Autowired
-    protected Mixer2Engine mixer2Engine;
+    protected final Lang defaultLang = Lang.EN;
 
     protected String indexTemplatePath = "classpath:m2mockup/m2template/index.html";
 
+    @Autowired
+    protected Mixer2Engine mixer2Engine;
+
     @RequestMapping(value = "/")
     public String top(Locale locale) {
-        Lang lang = Lang.EN;
+        Lang lang = defaultLang;
         try {
             lang = Lang.valueOf(locale.getLanguage().toUpperCase());
         } catch (IllegalArgumentException e) {
-            return "redirect:/en/index.html";
+            return "redirect:/" + defaultLang.toString().toLowerCase()
+                    + "/index.html";
         }
         String redirect = "redirect:/" + lang.toString().toLowerCase()
                 + "/index.html";
@@ -47,31 +49,36 @@ public class PageController {
         return redirect;
     }
 
-    @RequestMapping(value = "/{lang}/**/*.html")
-    public ModelAndView show(@PathVariable String lang,
-            HttpServletRequest request) throws FileNotFoundException, IOException, TagTypeUnmatchException  {
+    @RequestMapping(value = "/{langStr}/**/*.html")
+    public ModelAndView show(@PathVariable String langStr,
+            HttpServletRequest request) throws TagTypeUnmatchException,
+            IOException {
 
         logger.debug("# request processing...");
         ModelAndView modelAndView = new ModelAndView();
 
-        // check lang
+        // set Lang
+        Lang lang;
         try {
-            Lang.valueOf(lang.toUpperCase());
+            lang = Lang.valueOf(langStr.toUpperCase());
         } catch (IllegalArgumentException e) {
-            modelAndView.setViewName("redirect:/en/index.html");
+            // set "en" if langStr unmatch Lang enum.
+            modelAndView.setViewName("redirect:/"
+                    + defaultLang.toString().toLowerCase() + "/index.html");
             return modelAndView;
         }
-        logger.debug("# lang = " + lang);
+        logger.debug("# lang = " + lang.toString());
 
         // build template file path from URI
-        String path = StringUtils.substringAfter(
-                request.getRequestURI(), request.getContextPath() + "/" + lang);
+        String path = StringUtils.substringAfter(request.getRequestURI(),
+                request.getContextPath() + "/" + lang.toString().toLowerCase());
         logger.debug("# path = " + path);
         String templatePath = "classpath:m2mockup/m2template" + path;
         logger.debug("# templatePath = " + templatePath);
 
         // load template
-        Html html = mixer2Engine.loadHtmlTemplate(ResourceUtils.getFile(templatePath));
+        Html html = mixer2Engine.loadHtmlTemplate(ResourceUtils
+                .getFile(templatePath));
 
         // replace side menu (except for index.html)
         if (!templatePath.equals(indexTemplatePath)) {
