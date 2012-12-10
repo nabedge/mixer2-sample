@@ -10,13 +10,7 @@
 		</layout>
 	</appender>
 
-    <!-- Root Logger -->
-    <root>
-        <priority value="warn" />
-        <appender-ref ref="console" />
-    </root>
-
-    	<!-- Application Loggers -->
+ 	<!-- Application Loggers -->
 	<logger name="org.mixer2.sample">
 		<level value="debug" />
 	</logger>
@@ -37,5 +31,11 @@
 	<logger name="org.springframework.web">
 		<level value="info" />
 	</logger>
+
+    <!-- Root Logger -->
+    <root>
+        <priority value="warn" />
+        <appender-ref ref="console" />
+    </root>
 
 </log4j:configuration>
