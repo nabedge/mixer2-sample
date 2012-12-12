@@ -56,10 +56,19 @@
 
         <dependency>
             <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.0.1</version>
             <scope>provided</scope>
         </dependency>
+
+    <dependency>
+        <groupId>jstl</groupId>
+        <artifactId>jstl</artifactId>
+        <version>1.2</version>
+<!--         Use Provided when using JBoss or Glassfish, since they already -->
+<!--         bundle it. I'm using Tomcat so it has to go in -->
+<!--         <scope>provided</scope> -->
+    </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
