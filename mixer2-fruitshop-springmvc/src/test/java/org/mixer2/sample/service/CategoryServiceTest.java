@@ -11,19 +11,20 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"classpath:applicationContext.xml"})
+@ContextConfiguration(locations = { "classpath:applicationContext.xml",
+        "classpath:mvc-dispatcher-servlet.xml" })
 public class CategoryServiceTest {
 
-	Logger logger = Logger.getLogger(CategoryServiceTest.class);
+    Logger logger = Logger.getLogger(CategoryServiceTest.class);
 
-	@Autowired
-	CategoryService categoryService;
+    @Autowired
+    CategoryService categoryService;
 
-	@Test
-	public void test() {
-		List<Category> list = categoryService.getCategoryList();
-		//TODO
-		logger.debug(list.toString());
-	}
+    @Test
+    public void test() {
+        List<Category> list = categoryService.getCategoryList();
+        // TODO
+        logger.debug(list.toString());
+    }
 
 }

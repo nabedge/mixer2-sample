@@ -75,7 +75,7 @@ public class SeleniumTest {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
-    //@Ignore
+    @Ignore
     @Theory
     public void カテゴリと商品詳細の表示(TestParameter p) {
         driver.get("http://localhost:8090/mixer2-fruitshop-springmvc/");
