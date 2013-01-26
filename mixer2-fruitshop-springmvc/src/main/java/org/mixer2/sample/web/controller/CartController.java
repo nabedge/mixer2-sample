@@ -1,6 +1,5 @@
 package org.mixer2.sample.web.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -16,8 +15,8 @@ import org.mixer2.sample.web.view.M2staticHelper;
 import org.mixer2.sample.web.view.SectionHelper;
 import org.mixer2.xhtml.exception.TagTypeUnmatchException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,6 +36,9 @@ public class CartController {
 
     @Autowired
     protected Mixer2Engine mixer2Engine;
+
+    @Autowired
+    protected ResourceLoader resourceLoader;
 
     private String mainTemplate = "classpath:m2mockup/m2template/cart.html";
 
@@ -72,8 +74,7 @@ public class CartController {
     public ModelAndView view(Cart cart) throws IOException, TagTypeUnmatchException {
 
         // load html template
-        File file = ResourceUtils.getFile(mainTemplate);
-        Html html = mixer2Engine.loadHtmlTemplate(file);
+        Html html = mixer2Engine.loadHtmlTemplate(resourceLoader.getResource(mainTemplate).getInputStream());
 
         // fill cart table
         List<CartItem> list = cart.getReadOnlyItemList();

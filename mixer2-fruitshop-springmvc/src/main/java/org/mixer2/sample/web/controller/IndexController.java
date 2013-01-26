@@ -1,6 +1,5 @@
 package org.mixer2.sample.web.controller;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.apache.log4j.Logger;
@@ -13,8 +12,8 @@ import org.mixer2.sample.web.view.M2staticHelper;
 import org.mixer2.sample.web.view.SectionHelper;
 import org.mixer2.xhtml.exception.TagTypeUnmatchException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -34,21 +33,24 @@ public class IndexController {
     @Autowired
     protected ItemService itemService;
 
+    @Autowired
+    protected ResourceLoader resourceLoader;
+
     private String mainTemplate = "classpath:m2mockup/m2template/index.html";
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView index() throws IOException, TagTypeUnmatchException {
 
         // load html template
-        File file = ResourceUtils.getFile(mainTemplate);
-        Html html = mixer2Engine.loadHtmlTemplate(file);
+        Html html = mixer2Engine.loadHtmlTemplate(resourceLoader.getResource(
+                mainTemplate).getInputStream());
 
         // embed category list on side bar
         SectionHelper.rewriteSideBar(html, categoryService.getCategoryList());
 
         // embed category Box on content
-        IndexHelper.replaceCategoryBox(html, itemService
-                .getOneItemByOneCategory());
+        IndexHelper.replaceCategoryBox(html,
+                itemService.getOneItemByOneCategory());
 
         // replace static file path
         M2staticHelper.replaceM2staticPath(html);
@@ -57,8 +59,8 @@ public class IndexController {
         SectionHelper.rewriteHeader(html);
         SectionHelper.rewiteFooter(html);
 
-        ModelAndView modelAndView = new ModelAndView("mixer2view", "htmlString", mixer2Engine
-                .saveToString(html));
+        ModelAndView modelAndView = new ModelAndView("mixer2view",
+                "htmlString", mixer2Engine.saveToString(html));
         return modelAndView;
     }
 

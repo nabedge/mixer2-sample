@@ -1,6 +1,5 @@
 package org.mixer2.sample.web.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
@@ -22,8 +21,8 @@ import org.mixer2.sample.web.view.SectionHelper;
 import org.mixer2.sample.web.view.TransactionTokenHelper;
 import org.mixer2.xhtml.exception.TagTypeUnmatchException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.ResourceUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,6 +43,9 @@ public class CheckoutController {
     @Autowired
     protected PurchaseService purchaseService;
 
+    @Autowired
+    protected ResourceLoader resourceLoader;
+
     private String shippingTemplate = "classpath:m2mockup/m2template/checkout/shipping.html";
 
     private String confirmTemplate = "classpath:m2mockup/m2template/checkout/confirm.html";
@@ -63,11 +65,13 @@ public class CheckoutController {
     @RequestMapping(value = "/shipping")
     public ModelAndView shipping(
             @RequestParam(value = "redirected", required = false) boolean redirected,
-            @Valid Shipping shipping, Errors errors) throws IOException, TagTypeUnmatchException, IllegalAccessException, InvocationTargetException {
+            @Valid Shipping shipping, Errors errors) throws IOException,
+            TagTypeUnmatchException, IllegalAccessException,
+            InvocationTargetException {
 
         // load html template
-        File file = ResourceUtils.getFile(shippingTemplate);
-        Html html = mixer2Engine.loadHtmlTemplate(file);
+        Html html = mixer2Engine.loadHtmlTemplate(resourceLoader.getResource(
+                shippingTemplate).getInputStream());
 
         CheckoutHelper.replaceShippingForm(html, shipping);
 
@@ -84,14 +88,15 @@ public class CheckoutController {
         SectionHelper.rewriteHeader(html);
         SectionHelper.rewiteFooter(html);
 
-        ModelAndView modelAndView = new ModelAndView("mixer2view", "htmlString", mixer2Engine
-                .saveToString(html));
+        ModelAndView modelAndView = new ModelAndView("mixer2view",
+                "htmlString", mixer2Engine.saveToString(html));
         return modelAndView;
     }
 
     @RequestMapping(value = "confirm")
     public ModelAndView confirm(Cart cart, @Valid Shipping shipping,
-            Errors errors, HttpSession httpSession) throws IOException, TagTypeUnmatchException {
+            Errors errors, HttpSession httpSession) throws IOException,
+            TagTypeUnmatchException {
 
         // if cart is empty, redirect to cart view page.
         if (cart.getReadOnlyItemList().size() < 1) {
@@ -105,8 +110,8 @@ public class CheckoutController {
         }
 
         // load html template
-        File file = ResourceUtils.getFile(confirmTemplate);
-        Html html = mixer2Engine.loadHtmlTemplate(file);
+        Html html = mixer2Engine.loadHtmlTemplate(resourceLoader.getResource(
+                confirmTemplate).getInputStream());
 
         CheckoutHelper.replaceCartTable(html, cart, shipping);
         CheckoutHelper.replaceShipToAddress(html, shipping);
@@ -128,13 +133,14 @@ public class CheckoutController {
         SectionHelper.rewriteHeader(html);
         SectionHelper.rewiteFooter(html);
 
-        ModelAndView modelAndView = new ModelAndView("mixer2view", "htmlString", mixer2Engine
-                .saveToString(html));
+        ModelAndView modelAndView = new ModelAndView("mixer2view",
+                "htmlString", mixer2Engine.saveToString(html));
         return modelAndView;
     }
 
     @RequestMapping(value = "complete")
-    public String complete(Shipping shipping, Cart cart, HttpSession httpSession) throws Exception {
+    public String complete(Shipping shipping, Cart cart, HttpSession httpSession)
+            throws Exception {
 
         // check transaction token
         boolean checkResult = TransactionTokenHelper.checkToken(httpSession,
@@ -156,8 +162,8 @@ public class CheckoutController {
     @RequestMapping(value = "thankyou")
     public ModelAndView thankyou() throws IOException, TagTypeUnmatchException {
         String template = "classpath:m2mockup/m2template/checkout/thankyou.html";
-        File file = ResourceUtils.getFile(template);
-        Html html = mixer2Engine.loadHtmlTemplate(file);
+        Html html = mixer2Engine.loadHtmlTemplate(resourceLoader.getResource(
+                template).getInputStream());
 
         // replace anchor link to top page
         String ctx = RequestUtil.getRequest().getContextPath();
@@ -168,8 +174,8 @@ public class CheckoutController {
         SectionHelper.rewriteHeader(html);
         SectionHelper.rewiteFooter(html);
 
-        ModelAndView modelAndView = new ModelAndView("mixer2view", "htmlString", mixer2Engine
-                .saveToString(html));
+        ModelAndView modelAndView = new ModelAndView("mixer2view",
+                "htmlString", mixer2Engine.saveToString(html));
         return modelAndView;
     }
 
