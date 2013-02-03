@@ -1,6 +1,5 @@
 package org.mixer2.sample.web.controller;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.apache.log4j.Logger;
@@ -11,15 +10,14 @@ import org.mixer2.sample.service.ItemService;
 import org.mixer2.sample.web.view.ItemListHelper;
 import org.mixer2.sample.web.view.M2staticHelper;
 import org.mixer2.sample.web.view.SectionHelper;
+import org.mixer2.springmvc.Mixer2XhtmlView;
 import org.mixer2.xhtml.exception.TagTypeUnmatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class ItemListController {
@@ -42,7 +40,7 @@ public class ItemListController {
     private String mainTemplate = "classpath:m2mockup/m2template/itemList.html";
 
     @RequestMapping(value = "/itemList/{categoryId}", method = RequestMethod.GET)
-    public ModelAndView showItem(@PathVariable long categoryId) throws IOException, TagTypeUnmatchException {
+    public Mixer2XhtmlView showItem(@PathVariable long categoryId) throws IOException, TagTypeUnmatchException {
 
         // load html template
         Html html = mixer2Engine.loadHtmlTemplate(resourceLoader.getResource(
@@ -62,9 +60,7 @@ public class ItemListController {
         SectionHelper.rewriteHeader(html);
         SectionHelper.rewiteFooter(html);
 
-        ModelAndView modelAndView = new ModelAndView("mixer2view", "htmlString", mixer2Engine
-                .saveToString(html));
-        return modelAndView;
+        return new Mixer2XhtmlView(mixer2Engine, html);
     }
 
 }

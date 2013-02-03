@@ -19,6 +19,7 @@ import org.mixer2.sample.web.view.CheckoutHelper;
 import org.mixer2.sample.web.view.M2staticHelper;
 import org.mixer2.sample.web.view.SectionHelper;
 import org.mixer2.sample.web.view.TransactionTokenHelper;
+import org.mixer2.springmvc.Mixer2XhtmlView;
 import org.mixer2.xhtml.exception.TagTypeUnmatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
@@ -63,7 +64,7 @@ public class CheckoutController {
     }
 
     @RequestMapping(value = "/shipping")
-    public ModelAndView shipping(
+    public Mixer2XhtmlView shipping(
             @RequestParam(value = "redirected", required = false) boolean redirected,
             @Valid Shipping shipping, Errors errors) throws IOException,
             TagTypeUnmatchException, IllegalAccessException,
@@ -88,9 +89,7 @@ public class CheckoutController {
         SectionHelper.rewriteHeader(html);
         SectionHelper.rewiteFooter(html);
 
-        ModelAndView modelAndView = new ModelAndView("mixer2view",
-                "htmlString", mixer2Engine.saveToString(html));
-        return modelAndView;
+        return new Mixer2XhtmlView(mixer2Engine, html);
     }
 
     @RequestMapping(value = "confirm")
@@ -98,15 +97,19 @@ public class CheckoutController {
             Errors errors, HttpSession httpSession) throws IOException,
             TagTypeUnmatchException {
 
+        ModelAndView modelAndView = new ModelAndView();
+
         // if cart is empty, redirect to cart view page.
         if (cart.getReadOnlyItemList().size() < 1) {
-            return new ModelAndView("redirect:/cart/view");
+            modelAndView.setViewName("redirect:/cart/view");
+            return modelAndView;
         }
 
         // validation
         if (errors.hasErrors()) {
             logger.debug(errors);
-            return new ModelAndView("redirect:shipping?redirected=true");
+            modelAndView.setViewName("redirect:shipping?redirected=true");
+            return modelAndView;
         }
 
         // load html template
@@ -133,8 +136,7 @@ public class CheckoutController {
         SectionHelper.rewriteHeader(html);
         SectionHelper.rewiteFooter(html);
 
-        ModelAndView modelAndView = new ModelAndView("mixer2view",
-                "htmlString", mixer2Engine.saveToString(html));
+        modelAndView.setView(new Mixer2XhtmlView(mixer2Engine, html));
         return modelAndView;
     }
 
@@ -160,7 +162,7 @@ public class CheckoutController {
     }
 
     @RequestMapping(value = "thankyou")
-    public ModelAndView thankyou() throws IOException, TagTypeUnmatchException {
+    public Mixer2XhtmlView thankyou() throws IOException, TagTypeUnmatchException {
         String template = "classpath:m2mockup/m2template/checkout/thankyou.html";
         Html html = mixer2Engine.loadHtmlTemplate(resourceLoader.getResource(
                 template).getInputStream());
@@ -174,9 +176,7 @@ public class CheckoutController {
         SectionHelper.rewriteHeader(html);
         SectionHelper.rewiteFooter(html);
 
-        ModelAndView modelAndView = new ModelAndView("mixer2view",
-                "htmlString", mixer2Engine.saveToString(html));
-        return modelAndView;
+        return new Mixer2XhtmlView(mixer2Engine, html);
     }
 
 }

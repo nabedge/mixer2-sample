@@ -10,13 +10,13 @@ import org.mixer2.sample.service.ItemService;
 import org.mixer2.sample.web.view.IndexHelper;
 import org.mixer2.sample.web.view.M2staticHelper;
 import org.mixer2.sample.web.view.SectionHelper;
+import org.mixer2.springmvc.Mixer2XhtmlView;
 import org.mixer2.xhtml.exception.TagTypeUnmatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class IndexController {
@@ -39,7 +39,7 @@ public class IndexController {
     private String mainTemplate = "classpath:m2mockup/m2template/index.html";
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView index() throws IOException, TagTypeUnmatchException {
+    public Mixer2XhtmlView index() throws IOException, TagTypeUnmatchException {
 
         // load html template
         Html html = mixer2Engine.loadHtmlTemplate(resourceLoader.getResource(
@@ -59,9 +59,7 @@ public class IndexController {
         SectionHelper.rewriteHeader(html);
         SectionHelper.rewiteFooter(html);
 
-        ModelAndView modelAndView = new ModelAndView("mixer2view",
-                "htmlString", mixer2Engine.saveToString(html));
-        return modelAndView;
+        return new Mixer2XhtmlView(mixer2Engine, html);
     }
 
 }

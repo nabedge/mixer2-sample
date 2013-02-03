@@ -13,6 +13,7 @@ import org.mixer2.sample.web.dto.CartItem;
 import org.mixer2.sample.web.view.CartHelper;
 import org.mixer2.sample.web.view.M2staticHelper;
 import org.mixer2.sample.web.view.SectionHelper;
+import org.mixer2.springmvc.Mixer2XhtmlView;
 import org.mixer2.xhtml.exception.TagTypeUnmatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
@@ -22,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/cart")
@@ -71,7 +71,7 @@ public class CartController {
     }
 
     @RequestMapping(value = "/view", method = RequestMethod.GET)
-    public ModelAndView view(Cart cart) throws IOException, TagTypeUnmatchException {
+    public Mixer2XhtmlView view(Cart cart) throws IOException, TagTypeUnmatchException {
 
         // load html template
         Html html = mixer2Engine.loadHtmlTemplate(resourceLoader.getResource(mainTemplate).getInputStream());
@@ -92,9 +92,7 @@ public class CartController {
         SectionHelper.rewriteHeader(html);
         SectionHelper.rewiteFooter(html);
 
-        ModelAndView modelAndView = new ModelAndView("mixer2view", "htmlString", mixer2Engine
-                .saveToString(html));
-        return modelAndView;
+        return new Mixer2XhtmlView(mixer2Engine, html);
     }
 
 }
