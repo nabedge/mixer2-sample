@@ -20,6 +20,7 @@ import org.mixer2.Mixer2Engine;
 import org.mixer2.jaxb.xhtml.Div;
 import org.mixer2.jaxb.xhtml.H1;
 import org.mixer2.jaxb.xhtml.Html;
+import org.mixer2.springmvc.Mixer2XhtmlView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -58,7 +59,7 @@ public class ItemControllerTest {
     @Before
     public void before() throws Exception {
         // insert test data into database.
-        // see testdata/ItemControllerTestData.xls 
+        // see testdata/ItemControllerTestData.xls
         File file = ResourceUtils
                 .getFile("classpath:testdata/ItemControllerTest.xls");
         IDataSet dataset = new XlsDataSet(file);
@@ -85,8 +86,8 @@ public class ItemControllerTest {
                 handler);
 
         // reverse html string to Html object.
-        String htmlString = (String) modelAndView.getModel().get("htmlString");
-        Html html = mixer2Engine.loadHtmlTemplate(htmlString);
+        Mixer2XhtmlView view = (Mixer2XhtmlView)modelAndView.getView();
+        Html html = view.getHtml();
 
         // assert
         Div itemBox = html.getById("itemBox", Div.class);
