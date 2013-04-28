@@ -2,6 +2,7 @@ package org.mixer2.sample.web.controller;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -16,10 +17,10 @@ import org.mixer2.sample.web.dto.Cart;
 import org.mixer2.sample.web.dto.Shipping;
 import org.mixer2.sample.web.util.RequestUtil;
 import org.mixer2.sample.web.view.CheckoutHelper;
-import org.mixer2.sample.web.view.M2staticHelper;
 import org.mixer2.sample.web.view.SectionHelper;
 import org.mixer2.sample.web.view.TransactionTokenHelper;
 import org.mixer2.springmvc.Mixer2XhtmlView;
+import org.mixer2.xhtml.PathAjuster;
 import org.mixer2.xhtml.exception.TagTypeUnmatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
@@ -83,7 +84,9 @@ public class CheckoutController {
         }
 
         // replace static file path
-        M2staticHelper.replaceM2staticPath(html);
+        Pattern pattern = Pattern.compile("^\\.+/.*m2static/(.*)$");
+        String ctx = RequestUtil.getRequest().getContextPath();
+        PathAjuster.replacePath(html, pattern, ctx + "/m2static/$1");
 
         // header,footer
         SectionHelper.rewriteHeader(html);
@@ -130,7 +133,8 @@ public class CheckoutController {
                 .setHref(ctx + "/checkout/shipping");
 
         // replace static file path
-        M2staticHelper.replaceM2staticPath(html);
+        Pattern pattern = Pattern.compile("^\\.+/.*m2static/(.*)$");
+        PathAjuster.replacePath(html, pattern, ctx + "/m2static/$1");
 
         // header,footer
         SectionHelper.rewriteHeader(html);
@@ -172,7 +176,8 @@ public class CheckoutController {
         html.getBody().getById("goToTopPageAnchorLink", A.class).setHref(ctx);
 
         // replace static file path
-        M2staticHelper.replaceM2staticPath(html);
+        Pattern pattern = Pattern.compile("^\\.+/.*m2static/(.*)$");
+        PathAjuster.replacePath(html, pattern, ctx + "/m2static/$1");
         SectionHelper.rewriteHeader(html);
         SectionHelper.rewiteFooter(html);
 

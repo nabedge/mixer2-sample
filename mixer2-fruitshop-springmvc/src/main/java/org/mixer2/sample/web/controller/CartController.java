@@ -2,6 +2,7 @@ package org.mixer2.sample.web.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.mixer2.Mixer2Engine;
@@ -10,10 +11,11 @@ import org.mixer2.sample.dto.Item;
 import org.mixer2.sample.service.ItemService;
 import org.mixer2.sample.web.dto.Cart;
 import org.mixer2.sample.web.dto.CartItem;
+import org.mixer2.sample.web.util.RequestUtil;
 import org.mixer2.sample.web.view.CartHelper;
-import org.mixer2.sample.web.view.M2staticHelper;
 import org.mixer2.sample.web.view.SectionHelper;
 import org.mixer2.springmvc.Mixer2XhtmlView;
+import org.mixer2.xhtml.PathAjuster;
 import org.mixer2.xhtml.exception.TagTypeUnmatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
@@ -86,7 +88,9 @@ public class CartController {
         }
 
         // replace static file path
-        M2staticHelper.replaceM2staticPath(html);
+        Pattern pattern = Pattern.compile("^\\.+/.*m2static/(.*)$");
+        String ctx = RequestUtil.getRequest().getContextPath();
+        PathAjuster.replacePath(html, pattern, ctx + "/m2static/$1");
 
         // header,footer
         SectionHelper.rewriteHeader(html);
