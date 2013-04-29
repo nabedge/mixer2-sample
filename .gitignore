@@ -1,1 +1,4 @@
 target/
+/m2fruitshop/m2fruitshop-web/.settings
+/m2fruitshop/m2fruitshop-web/.classpath
+/m2fruitshop/m2fruitshop-web/.project
