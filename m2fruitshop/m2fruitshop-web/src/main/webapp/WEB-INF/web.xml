@@ -8,7 +8,7 @@
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            classpath*:/applicationContext.xml
+            classpath:applicationContext.xml
         </param-value>
     </context-param>
 
@@ -36,7 +36,7 @@
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>
-                classpath*:/mvc-dispatcher-servlet.xml
+                classpath:mvc-dispatcher-servlet.xml
             </param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
