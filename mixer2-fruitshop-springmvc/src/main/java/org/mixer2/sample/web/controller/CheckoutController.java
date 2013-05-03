@@ -85,7 +85,7 @@ public class CheckoutController {
 
         // replace static file path
         Pattern pattern = Pattern.compile("^\\.+/.*m2static/(.*)$");
-        String ctx = RequestUtil.getRequest().getContextPath();
+        String ctx = RequestUtil.getContextPath();
         PathAjuster.replacePath(html, pattern, ctx + "/m2static/$1");
 
         // header,footer
@@ -128,7 +128,7 @@ public class CheckoutController {
         TransactionTokenHelper.addToken(httpSession, orderCompleteForm);
 
         // replace anchor link
-        String ctx = RequestUtil.getRequest().getContextPath();
+        String ctx = RequestUtil.getContextPath();
         html.getBody().getById("backToShippingInfoAnchorLink", A.class)
                 .setHref(ctx + "/checkout/shipping");
 
@@ -172,7 +172,7 @@ public class CheckoutController {
                 template).getInputStream());
 
         // replace anchor link to top page
-        String ctx = RequestUtil.getRequest().getContextPath();
+        String ctx = RequestUtil.getContextPath();
         html.getBody().getById("goToTopPageAnchorLink", A.class).setHref(ctx);
 
         // replace static file path

@@ -24,7 +24,7 @@ public class CartHelper {
     public static void replaceCartForm(Html html, List<CartItem> itemList) throws TagTypeUnmatchException {
 
         // get contextPath
-        String ctx = RequestUtil.getRequest().getContextPath();
+        String ctx = RequestUtil.getContextPath();
 
         // keep copy of first tr tag
         Tbody cartTbody = html.getBody().getById("cartTable", Table.class)

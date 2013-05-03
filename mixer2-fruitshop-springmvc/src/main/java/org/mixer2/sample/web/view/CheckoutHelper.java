@@ -31,7 +31,7 @@ public class CheckoutHelper {
         FormUtil.populateForm(shippingForm, shipping);
 
         // get contextPath
-        String ctx = RequestUtil.getRequest().getContextPath();
+        String ctx = RequestUtil.getContextPath();
 
         // back to cart link
         html.getBody().getById("backToCartAnchorLink", A.class).setHref(
@@ -112,7 +112,7 @@ public class CheckoutHelper {
     }
 
     public static void replaceOrderCompleteForm(Html html) throws TagTypeUnmatchException {
-        String ctx = RequestUtil.getRequest().getContextPath();
+        String ctx = RequestUtil.getContextPath();
         Form form = html.getById("orderCompleteForm", Form.class);
         form.setMethod("post");
         form.setAction(ctx + "/checkout/complete");

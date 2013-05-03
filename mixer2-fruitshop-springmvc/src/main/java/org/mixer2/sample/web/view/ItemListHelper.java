@@ -19,7 +19,7 @@ public class ItemListHelper {
     public static void replaceItemBox(Html html, List<Item> itemList) throws TagTypeUnmatchException {
 
         // get contextPath
-        String ctx = RequestUtil.getRequest().getContextPath();
+        String ctx = RequestUtil.getContextPath();
 
         // contet div
         Div contentDiv = html.getBody().getById("content", Div.class);

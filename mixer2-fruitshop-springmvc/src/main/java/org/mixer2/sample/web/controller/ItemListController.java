@@ -57,7 +57,7 @@ public class ItemListController {
 
         // replace static file path
         Pattern pattern = Pattern.compile("^\\.+/.*m2static/(.*)$");
-        String ctx = RequestUtil.getRequest().getContextPath();
+        String ctx = RequestUtil.getContextPath();
         PathAjuster.replacePath(html, pattern, ctx + "/m2static/$1");
 
         // header,footer

@@ -22,7 +22,7 @@ public class ItemHelper {
     public static void replaceItemBox(Html html, Item item) throws TagTypeUnmatchException {
 
         // get contextPath
-        String ctx = RequestUtil.getRequest().getContextPath();
+        String ctx = RequestUtil.getContextPath();
         // contet div
         Div itemBox = html.getBody().getById("itemBox", Div.class);
 

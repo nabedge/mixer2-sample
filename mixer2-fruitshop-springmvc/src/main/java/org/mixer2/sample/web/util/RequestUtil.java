@@ -7,10 +7,22 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 public class RequestUtil {
 
+	public static String getContextPath() {
+		HttpServletRequest request = getRequest();
+		String ctx = null;
+		if (request != null) {
+			ctx = request.getContextPath();
+		}
+		return ctx;
+	}
+	
     public static HttpServletRequest getRequest() {
         ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder
                 .getRequestAttributes();
-        HttpServletRequest request = sra.getRequest();
+        HttpServletRequest request = null;
+        if (sra != null) {
+        	request = sra.getRequest();
+        }
         return request;
     }
 
