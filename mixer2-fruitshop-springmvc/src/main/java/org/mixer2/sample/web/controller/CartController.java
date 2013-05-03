@@ -79,13 +79,7 @@ public class CartController {
         Html html = mixer2Engine.loadHtmlTemplate(resourceLoader.getResource(mainTemplate).getInputStream());
 
         // fill cart table
-        List<CartItem> list = cart.getReadOnlyItemList();
-        if (list.size() > 0) {
-            html.getBody().removeById("emptyCart");
-            CartHelper.replaceCartForm(html, list);
-        } else {
-            html.getBody().removeById("cartForm");
-        }
+        CartHelper.replaceCartForm(html, cart);
 
         // replace static file path
         Pattern pattern = Pattern.compile("^\\.+/.*m2static/(.*)$");
