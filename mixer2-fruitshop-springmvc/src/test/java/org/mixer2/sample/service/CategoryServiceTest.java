@@ -15,10 +15,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
         "classpath:mvc-dispatcher-servlet.xml" })
 public class CategoryServiceTest {
 
-    Logger logger = Logger.getLogger(CategoryServiceTest.class);
+    private Logger logger = Logger.getLogger(CategoryServiceTest.class);
 
     @Autowired
-    CategoryService categoryService;
+    private CategoryService categoryService;
 
     @Test
     public void test() {
