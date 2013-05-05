@@ -50,7 +50,7 @@ public class SectionHelper {
 
         // keep copy of first li and clear of the content.
         Li li = ul.getLi().get(0).copy(Li.class);
-        li.getContent().clear();
+        li.unsetContent();
 
         // clear li tags of ul.
         ul.getLi().clear();

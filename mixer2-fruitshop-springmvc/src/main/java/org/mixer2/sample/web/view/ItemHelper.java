@@ -27,12 +27,12 @@ public class ItemHelper {
         Div itemBox = html.getBody().getById("itemBox", Div.class);
 
         // item information
-        itemBox.getById("itemName", H1.class).getContent().clear();
+        itemBox.getById("itemName", H1.class).unsetContent();
         itemBox.getById("itemName", H1.class).getContent().add(item.getName());
-        itemBox.getById("itemPrice", Span.class).getContent().clear();
+        itemBox.getById("itemPrice", Span.class).unsetContent();
         itemBox.getById("itemPrice", Span.class).getContent().add(
                 item.getPrice().toString());
-        itemBox.getById("itemDescription", Div.class).getContent().clear();
+        itemBox.getById("itemDescription", Div.class).unsetContent();
         itemBox.getById("itemDescription", Div.class).getContent().add(
                 item.getDescription());
 

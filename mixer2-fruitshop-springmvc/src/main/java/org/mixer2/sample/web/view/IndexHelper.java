@@ -46,13 +46,13 @@ public class IndexHelper {
 
             // category name
             for (H2 h2 : _categoryBox.getDescendants("categoryName", H2.class)) {
-                h2.getContent().clear();
+                h2.unsetContent();
                 h2.getContent().add(item.getCategoryName());
             }
 
             // item name and anchor
             for (H3 h3 : _categoryBox.getDescendants("itemNameLink", H3.class)) {
-                h3.getDescendants(A.class).get(0).getContent().clear();
+                h3.getDescendants(A.class).get(0).unsetContent();
                 h3.getDescendants(A.class).get(0).getContent().add(
                         item.getName());
                 h3.getDescendants(A.class).get(0).setHref(itemAnchor);
@@ -71,7 +71,7 @@ public class IndexHelper {
             // item description
             for (Span span : _categoryBox.getDescendants("itemDescription",
                     Span.class)) {
-                span.getContent().clear();
+                span.unsetContent();
                 span.getContent().add(item.getDescription());
             }
 

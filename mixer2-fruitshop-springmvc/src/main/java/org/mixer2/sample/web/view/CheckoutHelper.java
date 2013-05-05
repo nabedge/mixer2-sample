@@ -78,10 +78,10 @@ public class CheckoutHelper {
         }
 
         // charge for deligery
-        cartTable.getTfoot().getById("chargeForDelivery", Span.class)
-                .getContent().clear();
-        cartTable.getTfoot().getById("chargeForDelivery", Span.class)
-                .getContent().add(shipping.getChargeForDelivery().toString());
+		cartTable.getTfoot().getById("chargeForDelivery", Span.class)
+				.unsetContent();
+		cartTable.getTfoot().getById("chargeForDelivery", Span.class)
+				.getContent().add(shipping.getChargeForDelivery().toString());
 
         // total price
         BigDecimal totalPrice = new BigDecimal(0);
@@ -90,8 +90,7 @@ public class CheckoutHelper {
                     BigDecimal.valueOf(cartItem.getAmount())));
         }
         totalPrice = totalPrice.add(shipping.getChargeForDelivery());
-        cartTable.getTfoot().getById("totalPrice", Span.class).getContent()
-                .clear();
+		cartTable.getTfoot().getById("totalPrice", Span.class).unsetContent();
         cartTable.getTfoot().getById("totalPrice", Span.class).getContent()
                 .add(totalPrice.toString());
 
@@ -100,13 +99,13 @@ public class CheckoutHelper {
     public static void replaceShipToAddress(Html html, Shipping shipping) throws TagTypeUnmatchException {
         // name
         Span shipToNameSpan = html.getBody().getById("shipToName", Span.class);
-        shipToNameSpan.getContent().clear();
+        shipToNameSpan.unsetContent();
         shipToNameSpan.getContent().add(
                 shipping.getFirstName() + " " + shipping.getLastName());
         // address
         Span shipToAddressSpan = html.getBody().getById("shipToAddress",
                 Span.class);
-        shipToAddressSpan.getContent().clear();
+        shipToAddressSpan.unsetContent();
         shipToAddressSpan.getContent().add(
                 shipping.getAddress() + " " + shipping.getZipCode());
     }
@@ -139,7 +138,7 @@ public class CheckoutHelper {
             for (FieldError e : errors.getFieldErrors()) {
                 logger.debug("##### " + e.getField());
                 if (span.hasCssClass(e.getField())) {
-                    span.getContent().clear();
+                    span.unsetContent();
                     span.getContent().add(e.getDefaultMessage());
                     replaced = true;
                     continue;

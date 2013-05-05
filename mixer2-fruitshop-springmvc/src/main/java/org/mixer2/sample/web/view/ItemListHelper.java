@@ -27,7 +27,7 @@ public class ItemListHelper {
         // set category name by H1
         String categoryName = itemList.get(0).getCategoryName();
         H1 categoryNameH1 = contentDiv.getById("categoryName", H1.class);
-        categoryNameH1.getContent().clear();
+        categoryNameH1.unsetContent();
         categoryNameH1.getContent().add(categoryName);
 
         // keep copy of td of itemTable and clear other.
@@ -46,7 +46,7 @@ public class ItemListHelper {
             // anchor link to item page
             for (A a : itemTd.getDescendants("itemNameAnchorLink", A.class)) {
                 a.setHref(ctx + "/item/" + item.getId());
-                a.getContent().clear();
+                a.unsetContent();
                 a.getContent().add(item.getName());
             }
             for (A a : itemTd.getDescendants("itemImageAnchorLink", A.class)) {
@@ -55,7 +55,7 @@ public class ItemListHelper {
 
             // item price
             for (Span span : itemTd.getDescendants("itemPrice", Span.class)) {
-                span.getContent().clear();
+                span.unsetContent();
                 span.getContent().add(item.getPrice().toString());
             }
 
