@@ -47,7 +47,7 @@ public class CheckoutHelper {
         Tbody cartTbody = cartTable.getTbody().get(0);
 
         Tr baseTr = cartTbody.getTr().get(0).copy(Tr.class);
-        cartTbody.getTr().clear();
+        cartTbody.unsetTr(); // equals .getTr().clear()
 
         for (CartItem cartItem : cart.getReadOnlyItemList()) {
             // create tr (copy)

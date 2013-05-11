@@ -53,7 +53,7 @@ public class SectionHelper {
         li.unsetContent();
 
         // clear li tags of ul.
-        ul.getLi().clear();
+        ul.unsetLi(); // equals ul.getLi().clear();
 
         // get context path.
         String contextPath = RequestUtil.getContextPath();

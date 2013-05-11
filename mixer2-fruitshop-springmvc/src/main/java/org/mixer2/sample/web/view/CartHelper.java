@@ -42,7 +42,7 @@ public class CartHelper {
         Tbody cartTbody = html.getBody().getById("cartTable", Table.class)
                 .getById("cartTbody", Tbody.class);
         Tr baseTr = cartTbody.getTr().get(0).copy(Tr.class);
-        cartTbody.getTr().clear();
+        cartTbody.unsetTr(); // equals .getTr().clear()
 
         // replace attribute of form tag
         html.getBody().getById("cartForm", Form.class).setMethod("post");

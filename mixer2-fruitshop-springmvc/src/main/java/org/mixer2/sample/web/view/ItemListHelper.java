@@ -34,7 +34,7 @@ public class ItemListHelper {
         Table itemTable = html.getBody().getById("content", Div.class).getById(
                 "itemTable", Table.class);
         Td _td = itemTable.getTr().get(0).getThOrTd().get(0).cast(Td.class);
-        itemTable.getTr().clear();
+        itemTable.unsetTr(); // equals .getTr().clear()
 
         // embed item td in table
         int itemCount = 0;
