@@ -9,8 +9,8 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
-import org.h2.util.IOUtils;
 import org.mixer2.sample.form.M2staticForm;
 import org.seasar.framework.util.MimeTypeUtil;
 import org.seasar.framework.util.ResourceUtil;
@@ -58,7 +58,7 @@ public class M2staticAction {
                 .getResourceAsStreamNoException(path);
         OutputStream outputStream = response.getOutputStream();
         IOUtils.copy(inputStream, outputStream);
-        IOUtils.closeSilently(inputStream);
+        IOUtils.closeQuietly(inputStream);
         // need not view
         return null;
     }
