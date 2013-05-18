@@ -10,6 +10,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.h2.util.IOUtils;
 import org.mixer2.sample.form.M2staticForm;
 import org.seasar.framework.util.MimeTypeUtil;
 import org.seasar.framework.util.ResourceUtil;
@@ -56,17 +57,8 @@ public class M2staticAction {
         InputStream inputStream = ResourceUtil
                 .getResourceAsStreamNoException(path);
         OutputStream outputStream = response.getOutputStream();
-        byte[] buf = new byte[1024];
-        if (inputStream == null) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND,
-                    "File Not Found: " + path);
-        } else {
-            while (inputStream.read(buf) > 0) {
-                outputStream.write(buf);
-            }
-            inputStream.close();
-        }
-
+        IOUtils.copy(inputStream, outputStream);
+        IOUtils.closeSilently(inputStream);
         // need not view
         return null;
     }
