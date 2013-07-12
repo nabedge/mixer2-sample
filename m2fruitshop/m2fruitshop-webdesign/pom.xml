@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.mixer2.sample.m2fruitshop</groupId>
-    <artifactId>m2fruitshop-resources</artifactId>
+    <artifactId>m2fruitshop-webdesign</artifactId>
     <version>0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -29,5 +29,9 @@
             </plugin>
         </plugins>
     </build>
+
+    <dependencies>
+    <!--  -->
+    </dependencies>
 
 </project>
