@@ -34,7 +34,7 @@
 
         <dependency>
             <groupId>org.mixer2.sample.m2fruitshop</groupId>
-            <artifactId>m2fruitshop-front</artifactId>
+            <artifactId>m2fruitshop-common</artifactId>
             <version>0.1-SNAPSHOT</version>
         </dependency>
 

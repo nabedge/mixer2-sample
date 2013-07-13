@@ -13,7 +13,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ItemService {
+public class ItemServiceImpl implements ItemService {
 
     @Autowired
     protected CategoryService categoryService;
