@@ -36,6 +36,7 @@
             <artifactId>m2fruitshop-cart</artifactId>
             <version>0.1-SNAPSHOT</version>
         </dependency>
+
         <dependency>
             <groupId>org.mixer2.sample.m2fruitshop</groupId>
             <artifactId>m2fruitshop-front</artifactId>
