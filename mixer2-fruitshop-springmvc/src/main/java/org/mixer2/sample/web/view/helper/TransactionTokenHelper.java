@@ -1,4 +1,4 @@
-package org.mixer2.sample.web.view;
+package org.mixer2.sample.web.view.helper;
 
 import javax.servlet.http.HttpSession;
 

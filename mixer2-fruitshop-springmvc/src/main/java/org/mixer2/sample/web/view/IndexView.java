@@ -1,6 +1,12 @@
 package org.mixer2.sample.web.view;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.mixer2.jaxb.xhtml.A;
 import org.mixer2.jaxb.xhtml.Div;
@@ -8,22 +14,72 @@ import org.mixer2.jaxb.xhtml.H2;
 import org.mixer2.jaxb.xhtml.H3;
 import org.mixer2.jaxb.xhtml.Html;
 import org.mixer2.jaxb.xhtml.Span;
+import org.mixer2.sample.dto.Category;
 import org.mixer2.sample.dto.Item;
 import org.mixer2.sample.web.util.RequestUtil;
+import org.mixer2.sample.web.view.helper.SectionHelper;
+import org.mixer2.springmvc.AbstractMixer2XhtmlView;
+import org.mixer2.xhtml.PathAjuster;
 import org.mixer2.xhtml.exception.TagTypeUnmatchException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.stereotype.Component;
 
-/**
- * Helper class for handle sidebar of html template.
- */
-public class IndexHelper {
+@Component
+@Scope("prototype")
+public class IndexView extends AbstractMixer2XhtmlView {
+
+    @Autowired
+    protected ResourceLoader resourceLoader;
+
+    private String mainTemplate = "classpath:m2mockup/m2template/index.html";
+
+    @Override
+    protected Html createHtml(Map<String, Object> model,
+            HttpServletRequest request, HttpServletResponse response)
+            throws IOException, TagTypeUnmatchException {
+
+        // load html template
+        Html html = getMixer2Engine().loadHtmlTemplate(
+                resourceLoader.getResource(mainTemplate).getInputStream());
+
+        // get data from model
+        @SuppressWarnings("unchecked")
+        List<Category> categoryList = (List<Category>) model
+                .get("categoryList");
+        @SuppressWarnings("unchecked")
+        List<Item> oneItemByOneCategory = (List<Item>) model
+                .get("oneItemByOneCategory");
+
+        // embed category list on side bar
+        SectionHelper.rewriteSideBar(html, categoryList);
+
+        // embed category Box on content
+        replaceCategoryBox(html, oneItemByOneCategory);
+
+        // replace static file path
+        Pattern pattern = Pattern.compile("^\\.+/.*m2static/(.*)$");
+        String ctx = RequestUtil.getContextPath();
+        PathAjuster.replacePath(html, pattern, ctx + "/m2static/$1");
+
+        // header,footer
+        SectionHelper.rewriteHeader(html);
+        SectionHelper.rewiteFooter(html);
+
+        return html;
+    }
 
     /**
      * replace category list ul/li tags on sidebar by category table data.
-     * @param html index page template data
+     * 
+     * @param html
+     *            index page template data
      * @param categoryList
      * @throws TagTypeUnmatchException
      */
-    public static void replaceCategoryBox(Html html, List<Item> itemList) throws TagTypeUnmatchException {
+    private void replaceCategoryBox(Html html, List<Item> itemList)
+            throws TagTypeUnmatchException {
         // get contextPath
         String ctx = RequestUtil.getContextPath();
 
@@ -53,8 +109,8 @@ public class IndexHelper {
             // item name and anchor
             for (H3 h3 : _categoryBox.getDescendants("itemNameLink", H3.class)) {
                 h3.getDescendants(A.class).get(0).unsetContent();
-                h3.getDescendants(A.class).get(0).getContent().add(
-                        item.getName());
+                h3.getDescendants(A.class).get(0).getContent()
+                        .add(item.getName());
                 h3.getDescendants(A.class).get(0).setHref(itemAnchor);
             }
 
@@ -80,5 +136,4 @@ public class IndexHelper {
         }
 
     }
-
 }

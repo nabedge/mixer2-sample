@@ -33,6 +33,7 @@ import org.springframework.util.ResourceUtils;
 @RunWith(Theories.class)
 public class SeleniumTest {
 
+    private String topUrl = "http://localhost:8080/mixer2-fruitshop-springmvc/";
     private WebDriver driver;
     private static ITable paramTable;
     private static List<AssertionError> assertionErrors = new ArrayList<AssertionError>();
@@ -78,7 +79,7 @@ public class SeleniumTest {
 
     @Theory
     public void カテゴリと商品詳細の表示(TestParameter p) {
-        driver.get("http://localhost:8090/mixer2-fruitshop-springmvc/");
+        driver.get(topUrl);
         // カテゴリのページへ
         driver.findElement(By.linkText(p.categoryName)).click();
         assertThat(p.number, driver.findElement(By.id("categoryName")).getText(), is(p.categoryName));
