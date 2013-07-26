@@ -16,7 +16,7 @@ public class RequestUtil {
 		return ctx;
 	}
 	
-    public static HttpServletRequest getRequest() {
+    private static HttpServletRequest getRequest() {
         ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder
                 .getRequestAttributes();
         HttpServletRequest request = null;
