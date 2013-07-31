@@ -1,6 +1,5 @@
 package org.mixer2.sample.web.controller;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -9,7 +8,6 @@ import org.mixer2.sample.dto.Category;
 import org.mixer2.sample.dto.Item;
 import org.mixer2.sample.service.CategoryService;
 import org.mixer2.sample.service.ItemService;
-import org.mixer2.xhtml.exception.TagTypeUnmatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
@@ -37,12 +35,11 @@ public class ItemListController {
     protected ResourceLoader resourceLoader;
 
     @RequestMapping(value = "/itemList/{categoryId}", method = RequestMethod.GET)
-    public String showItem(Model model, @PathVariable long categoryId)
-            throws IOException, TagTypeUnmatchException {
+    public String showItem(Model model, @PathVariable long categoryId) {
 
         List<Category> categoryList = categoryService.getCategoryList();
         model.addAttribute("categoryList", categoryList);
-        
+
         List<Item> itemList = itemService.getItemList(categoryId);
         model.addAttribute("itemList", itemList);
 

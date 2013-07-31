@@ -1,8 +1,5 @@
 package org.mixer2.sample.web.controller;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -11,7 +8,6 @@ import org.mixer2.sample.service.PurchaseService;
 import org.mixer2.sample.web.dto.Cart;
 import org.mixer2.sample.web.dto.Shipping;
 import org.mixer2.sample.web.view.helper.TransactionTokenHelper;
-import org.mixer2.xhtml.exception.TagTypeUnmatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,10 +43,8 @@ public class CheckoutController {
     public String shipping(
             Model model,
             @RequestParam(value = "redirected", required = false) boolean redirected,
-            @Valid Shipping shipping, Errors errors) throws IOException,
-            TagTypeUnmatchException, IllegalAccessException,
-            InvocationTargetException {
-        
+            @Valid Shipping shipping, Errors errors) {
+
         model.addAttribute("shipping", shipping);
         model.addAttribute("redirected", redirected);
         model.addAttribute("errors", errors);
@@ -59,8 +53,7 @@ public class CheckoutController {
 
     @RequestMapping(value = "confirm")
     public String confirm(Model model, Cart cart, @Valid Shipping shipping,
-            Errors errors) throws IOException,
-            TagTypeUnmatchException {
+            Errors errors) {
 
         // if cart is empty, redirect to cart view page.
         if (cart.getReadOnlyItemList().size() < 1) {
@@ -100,7 +93,7 @@ public class CheckoutController {
     }
 
     @RequestMapping(value = "thankyou")
-    public String thankyou() throws IOException, TagTypeUnmatchException {
+    public String thankyou() {
         return "thankyouView";
     }
 

@@ -1,6 +1,5 @@
 package org.mixer2.sample.web.controller;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -8,7 +7,6 @@ import org.mixer2.sample.dto.Item;
 import org.mixer2.sample.service.ItemService;
 import org.mixer2.sample.web.dto.Cart;
 import org.mixer2.sample.web.dto.CartItem;
-import org.mixer2.xhtml.exception.TagTypeUnmatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -57,7 +55,7 @@ public class CartController {
     }
 
     @RequestMapping(value = "/view", method = RequestMethod.GET)
-    public String view(Model model, Cart cart) throws IOException, TagTypeUnmatchException {
+    public String view(Model model, Cart cart) {
         model.addAttribute("cart", cart);
         return "cartView";
     }
