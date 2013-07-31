@@ -17,10 +17,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mixer2.Mixer2Engine;
-import org.mixer2.jaxb.xhtml.Div;
-import org.mixer2.jaxb.xhtml.H1;
-import org.mixer2.jaxb.xhtml.Html;
-import org.mixer2.springmvc.Mixer2XhtmlView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -67,9 +63,8 @@ public class ItemControllerTest {
     }
 
     @Test
-    public void request_Item_10001_get_Apple() throws Exception {
+    public void showItem_exists() throws Exception {
         int itemId = 10001;
-        String itemName_expected = "Apple";
 
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();
@@ -80,21 +75,14 @@ public class ItemControllerTest {
         request.setMethod("GET");
         request.setRequestURI("/item/" + itemId);
 
-        // execute Controller method and get result as ModelAndView
+        // execute Controller method and get result as String
         Object handler = handlerMapping.getHandler(request).getHandler();
         ModelAndView modelAndView = handlerAdapter.handle(request, response,
                 handler);
 
         // reverse html string to Html object.
-        Mixer2XhtmlView view = (Mixer2XhtmlView)modelAndView.getView();
-        Html html = view.getHtml();
-
-        // assert
-        Div itemBox = html.getById("itemBox", Div.class);
-        // item name
-        assertThat(itemBox.getById("itemName", H1.class).getContent().get(0)
-                .toString(), is(itemName_expected));
-
+        String viewName = modelAndView.getViewName();
+        assertThat(viewName, is("itemView"));
     }
 
 }

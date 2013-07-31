@@ -1,4 +1,4 @@
-package org.mixer2.sample.web.view;
+package org.mixer2.sample.web.view.helper;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class SectionHelper {
 
     public static void rewriteHeader(Html html) throws TagTypeUnmatchException {
 
-        String ctx = RequestUtil.getRequest().getContextPath();
+        String ctx = RequestUtil.getContextPath();
 
         Div header = html.getBody().getById("header", Div.class);
 
@@ -56,7 +56,7 @@ public class SectionHelper {
         ul.getLi().clear();
 
         // get context path.
-        String contextPath = RequestUtil.getRequest().getContextPath();
+        String contextPath = RequestUtil.getContextPath();
 
         // add new li tags contains category name and anchor link
         for (Category category : categoryList) {
