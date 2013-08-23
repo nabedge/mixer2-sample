@@ -7,9 +7,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SimpleBatchSampleService {
+public class SimpleBatchSample {
 
-    private Logger logger = Logger.getLogger(SimpleBatchSampleService.class);
+    private Logger logger = Logger.getLogger(SimpleBatchSample.class);
 
     /**
      * This method will be execute automatically. 30 second interval
