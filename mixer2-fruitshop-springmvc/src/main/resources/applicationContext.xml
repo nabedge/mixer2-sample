@@ -5,6 +5,7 @@
     xmlns:context="http://www.springframework.org/schema/context"
     xmlns:jee="http://www.springframework.org/schema/jee"
     xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:task="http://www.springframework.org/schema/task"
     xmlns:jdbc="http://www.springframework.org/schema/jdbc"
     xsi:schemaLocation="
     http://www.springframework.org/schema/aop
@@ -17,11 +18,15 @@
     http://www.springframework.org/schema/jee/spring-jee.xsd
     http://www.springframework.org/schema/jdbc
     http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+    http://www.springframework.org/schema/task
+    http://www.springframework.org/schema/task/spring-task.xsd
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <context:property-placeholder location="classpath:*.properties" />
 
     <context:component-scan base-package="org.mixer2.sample.service" />
+
+    <task:annotation-driven />
 
     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
         <property name="basename" value="classpath:messages" />
