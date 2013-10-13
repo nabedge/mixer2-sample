@@ -82,7 +82,7 @@ public class ItemControllerTest {
 
         // reverse html string to Html object.
         String viewName = modelAndView.getViewName();
-        assertThat(viewName, is("itemView"));
+        assertThat(viewName, is("item"));
     }
 
 }

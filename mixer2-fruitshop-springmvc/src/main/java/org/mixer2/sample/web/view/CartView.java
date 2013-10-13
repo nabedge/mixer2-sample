@@ -18,31 +18,15 @@ import org.mixer2.sample.web.dto.Cart;
 import org.mixer2.sample.web.dto.CartItem;
 import org.mixer2.sample.web.util.RequestUtil;
 import org.mixer2.sample.web.view.helper.SectionHelper;
-import org.mixer2.springmvc.AbstractMixer2XhtmlView;
+import org.mixer2.spring.webmvc.AbstractMixer2XhtmlView;
 import org.mixer2.xhtml.PathAjuster;
 import org.mixer2.xhtml.exception.TagTypeUnmatchException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.stereotype.Component;
 
-@Component
-@Scope("prototype")
 public class CartView extends AbstractMixer2XhtmlView {
 
-    @Autowired
-    protected ResourceLoader resourceLoader;
-
-    private String mainTemplate = "classpath:m2mockup/m2template/cart.html";
-
     @Override
-    protected Html createHtml(Map<String, Object> model,
-            HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-
-        // load html template
-        Html html = getMixer2Engine().loadHtmlTemplate(
-                resourceLoader.getResource(mainTemplate).getInputStream());
+    protected Html renderHtml(Html html, Map<String, Object> model, HttpServletRequest request,
+            HttpServletResponse response) throws TagTypeUnmatchException {
 
         Cart cart = (Cart) model.get("cart");
 
@@ -61,8 +45,7 @@ public class CartView extends AbstractMixer2XhtmlView {
         return html;
     }
 
-    private void replaceCartForm(Html html, Cart cart)
-            throws TagTypeUnmatchException {
+    private void replaceCartForm(Html html, Cart cart) throws TagTypeUnmatchException {
 
         List<CartItem> itemList = cart.getReadOnlyItemList();
 
@@ -79,15 +62,13 @@ public class CartView extends AbstractMixer2XhtmlView {
         String ctx = RequestUtil.getContextPath();
 
         // keep copy of first tr tag
-        Tbody cartTbody = html.getBody().getById("cartTable", Table.class)
-                .getById("cartTbody", Tbody.class);
+        Tbody cartTbody = html.getBody().getById("cartTable", Table.class).getById("cartTbody", Tbody.class);
         Tr baseTr = cartTbody.getTr().get(0).copy(Tr.class);
         cartTbody.unsetTr(); // equals .getTr().clear()
 
         // replace attribute of form tag
         html.getBody().getById("cartForm", Form.class).setMethod("post");
-        html.getBody().getById("cartForm", Form.class)
-                .setAction(ctx + "/cart/checkout");
+        html.getBody().getById("cartForm", Form.class).setAction(ctx + "/cart/checkout");
 
         // embed tr tag by item data
         for (CartItem cartItem : itemList) {
@@ -103,8 +84,7 @@ public class CartView extends AbstractMixer2XhtmlView {
 
             // item price
             Span itemPriceSpan = new Span();
-            itemPriceSpan.getContent().add(
-                    cartItem.getItem().getPrice().toString());
+            itemPriceSpan.getContent().add(cartItem.getItem().getPrice().toString());
             itemPriceSpan.addCssClass("itemPrice");
             tr.replaceDescendants("itemPrice", Span.class, itemPriceSpan);
 
@@ -118,4 +98,5 @@ public class CartView extends AbstractMixer2XhtmlView {
         }
 
     }
+
 }

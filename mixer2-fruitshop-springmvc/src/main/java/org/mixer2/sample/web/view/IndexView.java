@@ -1,6 +1,5 @@
 package org.mixer2.sample.web.view;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -18,39 +17,21 @@ import org.mixer2.sample.dto.Category;
 import org.mixer2.sample.dto.Item;
 import org.mixer2.sample.web.util.RequestUtil;
 import org.mixer2.sample.web.view.helper.SectionHelper;
-import org.mixer2.springmvc.AbstractMixer2XhtmlView;
+import org.mixer2.spring.webmvc.AbstractMixer2XhtmlView;
 import org.mixer2.xhtml.PathAjuster;
 import org.mixer2.xhtml.exception.TagTypeUnmatchException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.stereotype.Component;
 
-@Component
-@Scope("prototype")
 public class IndexView extends AbstractMixer2XhtmlView {
 
-    @Autowired
-    protected ResourceLoader resourceLoader;
-
-    private String mainTemplate = "classpath:m2mockup/m2template/index.html";
-
     @Override
-    protected Html createHtml(Map<String, Object> model,
-            HttpServletRequest request, HttpServletResponse response)
-            throws IOException, TagTypeUnmatchException {
-
-        // load html template
-        Html html = getMixer2Engine().loadHtmlTemplate(
-                resourceLoader.getResource(mainTemplate).getInputStream());
+    protected Html renderHtml(Html html, Map<String, Object> model, HttpServletRequest request,
+            HttpServletResponse response) throws TagTypeUnmatchException {
 
         // get data from model
         @SuppressWarnings("unchecked")
-        List<Category> categoryList = (List<Category>) model
-                .get("categoryList");
+        List<Category> categoryList = (List<Category>) model.get("categoryList");
         @SuppressWarnings("unchecked")
-        List<Item> oneItemByOneCategory = (List<Item>) model
-                .get("oneItemByOneCategory");
+        List<Item> oneItemByOneCategory = (List<Item>) model.get("oneItemByOneCategory");
 
         // embed category list on side bar
         SectionHelper.rewriteSideBar(html, categoryList);
@@ -78,8 +59,7 @@ public class IndexView extends AbstractMixer2XhtmlView {
      * @param categoryList
      * @throws TagTypeUnmatchException
      */
-    private void replaceCategoryBox(Html html, List<Item> itemList)
-            throws TagTypeUnmatchException {
+    private void replaceCategoryBox(Html html, List<Item> itemList) throws TagTypeUnmatchException {
         // get contextPath
         String ctx = RequestUtil.getContextPath();
 
@@ -87,8 +67,7 @@ public class IndexView extends AbstractMixer2XhtmlView {
         Div contentDiv = html.getBody().getById("content", Div.class);
 
         // keep copy of CategoryBox
-        Div categoryBox = contentDiv.getDescendants("categoryBox", Div.class)
-                .get(0).copy(Div.class);
+        Div categoryBox = contentDiv.getDescendants("categoryBox", Div.class).get(0).copy(Div.class);
 
         // remove all categoryBox
         contentDiv.removeDescendants("categoryBox", Div.class);
@@ -109,8 +88,7 @@ public class IndexView extends AbstractMixer2XhtmlView {
             // item name and anchor
             for (H3 h3 : _categoryBox.getDescendants("itemNameLink", H3.class)) {
                 h3.getDescendants(A.class).get(0).unsetContent();
-                h3.getDescendants(A.class).get(0).getContent()
-                        .add(item.getName());
+                h3.getDescendants(A.class).get(0).getContent().add(item.getName());
                 h3.getDescendants(A.class).get(0).setHref(itemAnchor);
             }
 
@@ -125,8 +103,7 @@ public class IndexView extends AbstractMixer2XhtmlView {
             }
 
             // item description
-            for (Span span : _categoryBox.getDescendants("itemDescription",
-                    Span.class)) {
+            for (Span span : _categoryBox.getDescendants("itemDescription", Span.class)) {
                 span.unsetContent();
                 span.getContent().add(item.getDescription());
             }

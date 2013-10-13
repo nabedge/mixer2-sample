@@ -1,6 +1,5 @@
 package org.mixer2.sample.web.view;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -19,36 +18,19 @@ import org.mixer2.sample.dto.Category;
 import org.mixer2.sample.dto.Item;
 import org.mixer2.sample.web.util.RequestUtil;
 import org.mixer2.sample.web.view.helper.SectionHelper;
-import org.mixer2.springmvc.AbstractMixer2XhtmlView;
+import org.mixer2.spring.webmvc.AbstractMixer2XhtmlView;
 import org.mixer2.xhtml.PathAjuster;
 import org.mixer2.xhtml.exception.TagTypeUnmatchException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.stereotype.Component;
 
-@Component
-@Scope("prototype")
 public class ItemView extends AbstractMixer2XhtmlView {
 
-    @Autowired
-    protected ResourceLoader resourceLoader;
-
-    private String mainTemplate = "classpath:m2mockup/m2template/item.html";
-
     @Override
-    protected Html createHtml(Map<String, Object> model,
-            HttpServletRequest request, HttpServletResponse response)
-            throws IOException, TagTypeUnmatchException {
+    protected Html renderHtml(Html html, Map<String, Object> model, HttpServletRequest request,
+            HttpServletResponse response) throws TagTypeUnmatchException {
 
         @SuppressWarnings("unchecked")
-        List<Category> categoryList = (List<Category>) model
-                .get("categoryList");
+        List<Category> categoryList = (List<Category>) model.get("categoryList");
         Item item = (Item) model.get("item");
-
-        // load html template
-        Html html = getMixer2Engine().loadHtmlTemplate(
-                resourceLoader.getResource(mainTemplate).getInputStream());
 
         // embed item box
         replaceItemBox(html, item);
@@ -76,8 +58,7 @@ public class ItemView extends AbstractMixer2XhtmlView {
      * @param item
      * @throws TagTypeUnmatchException
      */
-    private static void replaceItemBox(Html html, Item item)
-            throws TagTypeUnmatchException {
+    private static void replaceItemBox(Html html, Item item) throws TagTypeUnmatchException {
 
         // get contextPath
         String ctx = RequestUtil.getContextPath();
@@ -88,11 +69,9 @@ public class ItemView extends AbstractMixer2XhtmlView {
         itemBox.getById("itemName", H1.class).unsetContent();
         itemBox.getById("itemName", H1.class).getContent().add(item.getName());
         itemBox.getById("itemPrice", Span.class).unsetContent();
-        itemBox.getById("itemPrice", Span.class).getContent()
-                .add(item.getPrice().toString());
+        itemBox.getById("itemPrice", Span.class).getContent().add(item.getPrice().toString());
         itemBox.getById("itemDescription", Div.class).unsetContent();
-        itemBox.getById("itemDescription", Div.class).getContent()
-                .add(item.getDescription());
+        itemBox.getById("itemDescription", Div.class).getContent().add(item.getDescription());
 
         // addCart form
         Form addCartForm = itemBox.getById("addCartForm", Form.class);

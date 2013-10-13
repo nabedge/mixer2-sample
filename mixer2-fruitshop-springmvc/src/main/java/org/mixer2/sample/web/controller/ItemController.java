@@ -32,7 +32,7 @@ public class ItemController {
         List<Category> categoryList = categoryService.getCategoryList();
         model.addAttribute("item", item);
         model.addAttribute("categoryList", categoryList);
-        return "itemView";
+        return "item";
     }
 
 }

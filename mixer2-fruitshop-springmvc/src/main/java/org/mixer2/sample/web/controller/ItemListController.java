@@ -3,13 +3,11 @@ package org.mixer2.sample.web.controller;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.mixer2.Mixer2Engine;
 import org.mixer2.sample.dto.Category;
 import org.mixer2.sample.dto.Item;
 import org.mixer2.sample.service.CategoryService;
 import org.mixer2.sample.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,12 +26,6 @@ public class ItemListController {
     @Autowired
     protected ItemService itemService;
 
-    @Autowired
-    protected Mixer2Engine mixer2Engine;
-
-    @Autowired
-    protected ResourceLoader resourceLoader;
-
     @RequestMapping(value = "/itemList/{categoryId}", method = RequestMethod.GET)
     public String showItem(Model model, @PathVariable long categoryId) {
 
@@ -43,7 +35,7 @@ public class ItemListController {
         List<Item> itemList = itemService.getItemList(categoryId);
         model.addAttribute("itemList", itemList);
 
-        return "itemListView";
+        return "itemList";
     }
 
 }

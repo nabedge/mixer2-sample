@@ -19,6 +19,7 @@ import org.mixer2.jaxb.xhtml.Span;
 import org.mixer2.sample.dto.Category;
 import org.mixer2.sample.dto.Item;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
@@ -35,7 +36,7 @@ public class ItemViewTest {
     protected Mixer2Engine mixer2Engine;
 
     @Autowired
-    protected ItemView itemView;
+    protected ResourceLoader resourceLoader;
 
     @Test
     public void testCreateHtml() throws Exception {
@@ -60,8 +61,12 @@ public class ItemViewTest {
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(
                 request));
 
-        itemView.setMixer2Engine(mixer2Engine);
-        Html html = itemView.createHtml(model, request, response);
+        Html templateHtml = mixer2Engine.loadHtmlTemplate(resourceLoader.getResource(
+                "classpath:m2mockup/m2template/item.html").getInputStream());
+        
+        ItemView itemView = new ItemView();
+        Html html = itemView.renderHtml(templateHtml, model, request, response);
+
         Div itemDiv = html.getById("itemBox", Div.class);
 
         assertThat(itemDiv.getById("itemName", H1.class).getContent().get(0)
