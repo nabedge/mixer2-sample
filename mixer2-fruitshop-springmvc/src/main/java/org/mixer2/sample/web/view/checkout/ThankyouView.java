@@ -1,4 +1,4 @@
-package org.mixer2.sample.web.view;
+package org.mixer2.sample.web.view.checkout;
 
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -10,28 +10,15 @@ import org.mixer2.jaxb.xhtml.A;
 import org.mixer2.jaxb.xhtml.Html;
 import org.mixer2.sample.web.util.RequestUtil;
 import org.mixer2.sample.web.view.helper.SectionHelper;
-import org.mixer2.springmvc.AbstractMixer2XhtmlView;
+import org.mixer2.spring.webmvc.AbstractMixer2XhtmlView;
 import org.mixer2.xhtml.PathAjuster;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.stereotype.Component;
+import org.mixer2.xhtml.exception.TagTypeUnmatchException;
 
-@Component
-@Scope("prototype")
 public class ThankyouView extends AbstractMixer2XhtmlView {
 
-    @Autowired
-    protected ResourceLoader resourceLoader;
-
     @Override
-    protected Html createHtml(Map<String, Object> model,
-            HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-
-        String template = "classpath:m2mockup/m2template/checkout/thankyou.html";
-        Html html = getMixer2Engine().loadHtmlTemplate(
-                resourceLoader.getResource(template).getInputStream());
+    protected Html renderHtml(Html html, Map<String, Object> model, HttpServletRequest request,
+            HttpServletResponse response) throws TagTypeUnmatchException {
 
         // replace anchor link to top page
         String ctx = RequestUtil.getContextPath();

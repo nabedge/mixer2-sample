@@ -48,7 +48,7 @@ public class CheckoutController {
         model.addAttribute("shipping", shipping);
         model.addAttribute("redirected", redirected);
         model.addAttribute("errors", errors);
-        return "shippingView";
+        return "checkout/shipping";
     }
 
     @RequestMapping(value = "confirm")
@@ -68,7 +68,7 @@ public class CheckoutController {
 
         model.addAttribute("cart", cart);
         model.addAttribute("shipping", shipping);
-        return "confirmView";
+        return "checkout/confirm";
     }
 
     @RequestMapping(value = "complete")
@@ -94,7 +94,7 @@ public class CheckoutController {
 
     @RequestMapping(value = "thankyou")
     public String thankyou() {
-        return "thankyouView";
+        return "checkout/thankyou";
     }
 
 }
