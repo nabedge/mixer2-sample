@@ -1,4 +1,4 @@
-package org.mixer2.sample.web.view;
+package org.mixer2.sample.web.view.checkout;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -6,7 +6,6 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.mixer2.jaxb.xhtml.A;
 import org.mixer2.jaxb.xhtml.Form;
@@ -21,36 +20,18 @@ import org.mixer2.sample.web.dto.Shipping;
 import org.mixer2.sample.web.util.RequestUtil;
 import org.mixer2.sample.web.view.helper.SectionHelper;
 import org.mixer2.sample.web.view.helper.TransactionTokenHelper;
-import org.mixer2.springmvc.AbstractMixer2XhtmlView;
+import org.mixer2.spring.webmvc.AbstractMixer2XhtmlView;
 import org.mixer2.xhtml.PathAjuster;
 import org.mixer2.xhtml.exception.TagTypeUnmatchException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.stereotype.Component;
 
-@Component
-@Scope("prototype")
 public class ConfirmView extends AbstractMixer2XhtmlView {
 
-    @Autowired
-    protected ResourceLoader resourceLoader;
-
-    @Autowired
-    protected HttpSession httpSession;
-
     @Override
-    protected Html createHtml(Map<String, Object> model,
-            HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
+    protected Html renderHtml(Html html, Map<String, Object> model, HttpServletRequest request,
+            HttpServletResponse response) throws TagTypeUnmatchException {
 
         Cart cart = (Cart) model.get("cart");
         Shipping shipping = (Shipping) model.get("shipping");
-
-        // load html template
-        String template = "classpath:m2mockup/m2template/checkout/confirm.html";
-        Html html = getMixer2Engine().loadHtmlTemplate(
-                resourceLoader.getResource(template).getInputStream());
 
         replaceCartTable(html, cart, shipping);
         replaceShipToAddress(html, shipping);
@@ -58,12 +39,11 @@ public class ConfirmView extends AbstractMixer2XhtmlView {
 
         // set transaction token
         Form orderCompleteForm = html.getById("orderCompleteForm", Form.class);
-        TransactionTokenHelper.addToken(httpSession, orderCompleteForm);
+        TransactionTokenHelper.addToken(request.getSession(), orderCompleteForm);
 
         // replace anchor link
         String ctx = RequestUtil.getContextPath();
-        html.getBody().getById("backToShippingInfoAnchorLink", A.class)
-                .setHref(ctx + "/checkout/shipping");
+        html.getBody().getById("backToShippingInfoAnchorLink", A.class).setHref(ctx + "/checkout/shipping");
 
         // replace static file path
         Pattern pattern = Pattern.compile("^\\.+/.*m2static/(.*)$");
@@ -76,8 +56,7 @@ public class ConfirmView extends AbstractMixer2XhtmlView {
         return html;
     }
 
-    private void replaceCartTable(Html html, Cart cart, Shipping shipping)
-            throws TagTypeUnmatchException {
+    private void replaceCartTable(Html html, Cart cart, Shipping shipping) throws TagTypeUnmatchException {
         Table cartTable = html.getBody().getById("cartTable", Table.class);
         Tbody cartTbody = cartTable.getTbody().get(0);
 
@@ -96,15 +75,13 @@ public class ConfirmView extends AbstractMixer2XhtmlView {
 
             // item price
             Span itemPriceSpan = new Span();
-            itemPriceSpan.getContent().add(
-                    cartItem.getItem().getPrice().toString());
+            itemPriceSpan.getContent().add(cartItem.getItem().getPrice().toString());
             itemPriceSpan.addCssClass("itemPrice");
             tr.replaceDescendants("itemPrice", Span.class, itemPriceSpan);
 
             // item amount
             Span itemAmountSpan = new Span();
-            itemAmountSpan.getContent().add(
-                    Integer.toString(cartItem.getAmount()));
+            itemAmountSpan.getContent().add(Integer.toString(cartItem.getAmount()));
             itemAmountSpan.addCssClass("itemAmount");
             tr.replaceDescendants("itemAmount", Span.class, itemAmountSpan);
 
@@ -113,10 +90,9 @@ public class ConfirmView extends AbstractMixer2XhtmlView {
         }
 
         // charge for deligery
-        cartTable.getTfoot().getById("chargeForDelivery", Span.class)
-                .unsetContent();
-        cartTable.getTfoot().getById("chargeForDelivery", Span.class)
-                .getContent().add(shipping.getChargeForDelivery().toString());
+        cartTable.getTfoot().getById("chargeForDelivery", Span.class).unsetContent();
+        cartTable.getTfoot().getById("chargeForDelivery", Span.class).getContent()
+                .add(shipping.getChargeForDelivery().toString());
 
         // total price
         BigDecimal totalPrice = new BigDecimal(0);
@@ -126,28 +102,22 @@ public class ConfirmView extends AbstractMixer2XhtmlView {
         }
         totalPrice = totalPrice.add(shipping.getChargeForDelivery());
         cartTable.getTfoot().getById("totalPrice", Span.class).unsetContent();
-        cartTable.getTfoot().getById("totalPrice", Span.class).getContent()
-                .add(totalPrice.toString());
+        cartTable.getTfoot().getById("totalPrice", Span.class).getContent().add(totalPrice.toString());
 
     }
 
-    private void replaceShipToAddress(Html html, Shipping shipping)
-            throws TagTypeUnmatchException {
+    private void replaceShipToAddress(Html html, Shipping shipping) throws TagTypeUnmatchException {
         // name
         Span shipToNameSpan = html.getBody().getById("shipToName", Span.class);
         shipToNameSpan.unsetContent();
-        shipToNameSpan.getContent().add(
-                shipping.getFirstName() + " " + shipping.getLastName());
+        shipToNameSpan.getContent().add(shipping.getFirstName() + " " + shipping.getLastName());
         // address
-        Span shipToAddressSpan = html.getBody().getById("shipToAddress",
-                Span.class);
+        Span shipToAddressSpan = html.getBody().getById("shipToAddress", Span.class);
         shipToAddressSpan.unsetContent();
-        shipToAddressSpan.getContent().add(
-                shipping.getAddress() + " " + shipping.getZipCode());
+        shipToAddressSpan.getContent().add(shipping.getAddress() + " " + shipping.getZipCode());
     }
 
-    private void replaceOrderCompleteForm(Html html)
-            throws TagTypeUnmatchException {
+    private void replaceOrderCompleteForm(Html html) throws TagTypeUnmatchException {
         String ctx = RequestUtil.getContextPath();
         Form form = html.getById("orderCompleteForm", Form.class);
         form.setMethod("post");

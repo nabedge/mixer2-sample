@@ -57,7 +57,7 @@ public class CartController {
     @RequestMapping(value = "/view", method = RequestMethod.GET)
     public String view(Model model, Cart cart) {
         model.addAttribute("cart", cart);
-        return "cartView";
+        return "cart";
     }
 
 }

@@ -31,7 +31,7 @@ public class IndexController {
         List<Item> oneItemByOneCategory = itemService.getOneItemByOneCategory();
         model.addAttribute("categoryList", categoryList);
         model.addAttribute("oneItemByOneCategory", oneItemByOneCategory);
-        return "indexView";
+        return "index";
     }
 
 }
