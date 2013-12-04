@@ -1,0 +1,18 @@
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+          http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+    version="3.0">
+    <display-name>mixer2 + jax-rs sample</display-name>
+    <servlet>
+        <servlet-name>Jersey REST Service</servlet-name>
+        <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+        <init-param>
+            <param-name>javax.ws.rs.Application</param-name>
+            <param-value>org.mixer2.sample.RestApplication</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Jersey REST Service</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+</web-app>
