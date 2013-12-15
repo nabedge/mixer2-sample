@@ -20,7 +20,7 @@ import org.mixer2.jaxb.xhtml.Html;
 @Produces(MediaType.TEXT_HTML)
 public class Mixer2Writer implements MessageBodyWriter<Html> {
 
-    private Mixer2Engine mixer2Engine = new Mixer2Engine();
+    private Mixer2Engine mixer2Engine = Mixer2EngineSingleton.getInstance();
     
     @Override
     public long getSize(Html html, Class<?> type, Type genericType, Annotation[] annotations,
