@@ -14,4 +14,13 @@ public class RestApplication extends Application {
         return set;
     }
 
+    
+    @Override
+    public Set<Object> getSingletons() {
+        HashSet<Object> set = new HashSet<Object>();
+        Mixer2Writer mixer2Writer = new Mixer2Writer();
+        set.add(mixer2Writer);
+        return set;
+        
+    }
 }

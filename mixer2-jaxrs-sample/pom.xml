@@ -18,7 +18,7 @@
         <dependency>
             <groupId>org.mixer2</groupId>
             <artifactId>mixer2</artifactId>
-            <version>1.2.14</version>
+            <version>1.2.20</version>
         </dependency>
         <dependency>
             <groupId>com.sun.jersey</groupId>
