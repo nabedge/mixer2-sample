@@ -13,10 +13,14 @@ public class StaticResource {
     @Path("{path : .+}")
     @GET
     public Response getImage(@PathParam("path") String path) {
-        String extension = path.substring(path.length() -3, path.length());
+        
+        // get extention link "jpg","png","gif"...
+        String extension = path.substring(path.length() - 3, path.length());
         path = "m2mockup/m2static/" + path;
         InputStream is = this.getClass().getClassLoader()
                 .getResourceAsStream(path);
+        
+        // response
         return Response.ok(is, "image/" + extension).build();
     }
 }

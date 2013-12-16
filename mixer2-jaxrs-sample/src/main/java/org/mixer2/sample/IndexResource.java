@@ -20,21 +20,30 @@ import org.mixer2.xhtml.exception.TagTypeUnmatchException;
 public class IndexResource {
 
     private Mixer2Engine mixer2Engine = Mixer2EngineSingleton.getInstance();
-    
+
     @GET
     @Produces(MediaType.TEXT_HTML)
-    public Html index(@QueryParam(value = "message") String message) throws IOException, TagTypeUnmatchException {
+    public Html index(@QueryParam(value = "message") String message)
+            throws IOException, TagTypeUnmatchException {
+
+        // loading template
         String template = "m2mockup/m2template/index.html";
         InputStream is = this.getClass().getClassLoader()
                 .getResourceAsStream(template);
         Html html = mixer2Engine.loadHtmlTemplate(is);
+        
+        // replace content in <div id="message"> tag
         if (message != null) {
             Div div = html.getBody().getById("message", Div.class);
             div.unsetContent();
             div.getContent().add(message);
         }
+        
+        // replace static file path
         Pattern pattern = Pattern.compile("^\\.+/.*m2static/(.*)$");
         PathAjuster.replacePath(html, pattern, "m2static/$1");
+        
+        // return html object
         return html;
     }
 }

@@ -41,6 +41,7 @@ public class Mixer2Writer implements MessageBodyWriter<Html> {
     public void writeTo(Html html, Class<?> type, Type genericType, Annotation[] annotations,
             MediaType mediaType, MultivaluedMap<String, Object> multivaluedMap,
             OutputStream outputStream) throws IOException, WebApplicationException {
+        // marshalling html object to string.
         String str = mixer2Engine.saveToString(html);
         OutputStreamWriter writer = new OutputStreamWriter(outputStream, "UTF-8");
         writer.write(str);
