@@ -34,4 +34,13 @@ public class IndexController {
         return "index";
     }
 
+    /**
+     * sample for use normal jsp
+     * @return
+     */
+    @RequestMapping(value = "/bar", method = RequestMethod.GET)
+    public String bar() {
+        return "foo";
+    }
+
 }
