@@ -16,6 +16,11 @@ import org.mixer2.jaxb.xhtml.Html;
 import org.mixer2.xhtml.PathAjuster;
 import org.mixer2.xhtml.exception.TagTypeUnmatchException;
 
+/**
+ * http://localhost:8080/mixer2-jaxrs-sample/ (without message replace)
+ * http://localhost:8080/mixer2-jaxrs-sample/?message=hello
+ *
+ */
 @Path("/")
 public class IndexResource {
 
