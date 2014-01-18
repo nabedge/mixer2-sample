@@ -24,17 +24,21 @@ import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.rules.ErrorCollector;
 import org.junit.runner.RunWith;
+import org.mixer2.Mixer2Engine;
+import org.mixer2.jaxb.xhtml.Html;
+import org.mixer2.jaxb.xhtml.Span;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.util.ResourceUtils;
 
-@Ignore // TODO delete  if you run test!
+//@Ignore // TODO delete  if you run test!
 @RunWith(Theories.class)
 public class SeleniumTest {
 
     private String topUrl = "http://localhost:8080/mixer2-fruitshop-springmvc/";
     private WebDriver driver;
+    private static Mixer2Engine mixer2Engine = new Mixer2Engine();
     private static ITable paramTable;
     private static List<AssertionError> assertionErrors = new ArrayList<AssertionError>();
     private static class TestParameter {
@@ -78,15 +82,31 @@ public class SeleniumTest {
     }
 
     @Theory
-    public void カテゴリと商品詳細の表示(TestParameter p) {
+    public void showCategoryAndProductDetail(TestParameter p) throws Exception {
         driver.get(topUrl);
-        // カテゴリのページへ
+
+        // click category name and go
+        // カテゴリ名のリンクをクリックして画面遷移
         driver.findElement(By.linkText(p.categoryName)).click();
-        assertThat(p.number, driver.findElement(By.id("categoryName")).getText(), is(p.categoryName));
+        assertThat(p.number, driver.findElement(By.id("categoryName"))
+                .getText(), is(p.categoryName));
+        
+        // click item name and go
         // 商品詳細のページへ
         driver.findElement(By.linkText(p.itemName)).click();
-        assertThat(p.number, driver.findElement(By.id("itemName")).getText(), is(p.itemName));
-        assertThat(p.number, driver.findElement(By.id("itemPrice")).getText(), is(p.itemPrice));
+        
+        // get and assert the product name 商品名の検証
+        String itemName = driver.findElement(By.id("itemName")).getText();
+        assertThat(p.number, itemName, is(p.itemName));
+        
+        // SeleniumのfindElementではなくmixer2EngineのgetById()で価格を拾う
+        String itemPrice = driver.findElement(By.id("itemPrice")).getText();
+
+        //        Html html = mixer2Engine.loadHtmlTemplate(driver.getPageSource());
+//        String itemPrice = html.getById("itemPrice", Span.class).getContent()
+//                .get(0).toString();
+        
+        assertThat(p.number, itemPrice, is(p.itemPrice));
     }
 
     private <T> void assertThat(String message, T actual, Matcher<? super T> matcher) {
