@@ -19,7 +19,7 @@ import org.mixer2.sample.dto.Item;
 import org.mixer2.sample.web.util.RequestUtil;
 import org.mixer2.sample.web.view.helper.SectionHelper;
 import org.mixer2.spring.webmvc.AbstractMixer2XhtmlView;
-import org.mixer2.xhtml.PathAjuster;
+import org.mixer2.xhtml.PathAdjuster;
 import org.mixer2.xhtml.exception.TagTypeUnmatchException;
 
 public class ItemView extends AbstractMixer2XhtmlView {
@@ -41,7 +41,7 @@ public class ItemView extends AbstractMixer2XhtmlView {
         // replace static file path
         Pattern pattern = Pattern.compile("^\\.+/.*m2static/(.*)$");
         String ctx = request.getContextPath();
-        PathAjuster.replacePath(html, pattern, ctx + "/m2static/$1");
+        PathAdjuster.replacePath(html, pattern, ctx + "/m2static/$1");
 
         // header,footer
         SectionHelper.rewriteHeader(html);

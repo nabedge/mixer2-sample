@@ -16,7 +16,7 @@ import org.mixer2.sample.web.dto.Shipping;
 import org.mixer2.sample.web.util.RequestUtil;
 import org.mixer2.sample.web.view.helper.SectionHelper;
 import org.mixer2.spring.webmvc.AbstractMixer2XhtmlView;
-import org.mixer2.xhtml.PathAjuster;
+import org.mixer2.xhtml.PathAdjuster;
 import org.mixer2.xhtml.exception.TagTypeUnmatchException;
 import org.mixer2.xhtml.util.FormUtil;
 import org.springframework.validation.Errors;
@@ -46,7 +46,7 @@ public class ShippingView extends AbstractMixer2XhtmlView {
         // replace static file path
         Pattern pattern = Pattern.compile("^\\.+/.*m2static/(.*)$");
         String ctx = RequestUtil.getContextPath();
-        PathAjuster.replacePath(html, pattern, ctx + "/m2static/$1");
+        PathAdjuster.replacePath(html, pattern, ctx + "/m2static/$1");
 
         // header,footer
         SectionHelper.rewriteHeader(html);
