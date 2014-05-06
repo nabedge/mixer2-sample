@@ -32,19 +32,20 @@ public class PurchaseService {
     public boolean execPurchase(Cart cart, Shipping shipping) {
 
         // get id from sequence
-        long purchaseId = jdbcTemplate.queryForLong(sql_seq);
+        long purchaseId = jdbcTemplate.queryForObject(sql_seq, Long.class);
 
         // insert to purchase table
-        int result = jdbcTemplate.update(sql_ins_purchase, purchaseId, shipping
-                .getFirstName(), shipping.getLastName(), shipping.getZipCode(),
-                shipping.getAddress(), shipping.getChargeForDelivery());
+        int result = jdbcTemplate.update(sql_ins_purchase, purchaseId,
+                shipping.getFirstName(), shipping.getLastName(),
+                shipping.getZipCode(), shipping.getAddress(),
+                shipping.getChargeForDelivery());
         logger.debug("# inserted into purchase table : " + result);
 
         // insert to purchase_detail table
         List<Object[]> batchArgs = new ArrayList<Object[]>();
         for (CartItem cartItem : cart.getReadOnlyItemList()) {
             List<Object> params = new ArrayList<Object>();
-            params.add(jdbcTemplate.queryForLong(sql_seq)); // id
+            params.add(jdbcTemplate.queryForObject(sql_seq, Long.class)); // id
             params.add(purchaseId);
             params.add(cartItem.getItem().getId());
             params.add(cartItem.getAmount());
