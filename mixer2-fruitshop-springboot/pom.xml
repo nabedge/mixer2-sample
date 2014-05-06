@@ -158,7 +158,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib</classpathPrefix>
-                            <mainClass>org.mixer2.sample.ServerRunner</mainClass>
+                            <mainClass>org.mixer2.sample.Server</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
