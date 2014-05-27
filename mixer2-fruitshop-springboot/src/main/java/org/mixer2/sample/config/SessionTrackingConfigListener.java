@@ -30,7 +30,7 @@ public class SessionTrackingConfigListener implements ServletContextInitializer 
                 .getSessionCookieConfig();
         sessionCookieConfig.setHttpOnly(true);
         sessionCookieConfig.setName("SAMPLESESSIONID");
-        Set<SessionTrackingMode> stmSet = new HashSet<>();
+        Set<SessionTrackingMode> stmSet = new HashSet<SessionTrackingMode>();
         stmSet.add(SessionTrackingMode.COOKIE);
         servletContext.setSessionTrackingModes(stmSet);
     }
