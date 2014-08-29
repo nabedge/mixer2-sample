@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import javax.servlet.MultipartConfigElement;
-
 import org.apache.catalina.valves.CrawlerSessionManagerValve;
 import org.mixer2.Mixer2Engine;
 import org.mixer2.spring.webmvc.Mixer2XhtmlViewResolver;
@@ -14,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
-import org.springframework.boot.context.embedded.MultiPartConfigFactory;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -35,7 +32,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 /**
  * The SpringMVC application context. <br/>
  * すべての@Controllerクラスがこれでコンポーネントスキャンされる。 <br />
- * 
+ *
  */
 @EnableWebMvc
 @Configuration
@@ -79,14 +76,6 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
     public MultipartResolver multipartResolver() {
         StandardServletMultipartResolver resolver = new StandardServletMultipartResolver();
         return resolver;
-    }
-
-    @Bean
-    public MultipartConfigElement multipartConfigElement() {
-        MultiPartConfigFactory factory = new MultiPartConfigFactory();
-        factory.setMaxFileSize("5MB");
-        factory.setMaxRequestSize("6MB");
-        return factory.createMultipartConfig();
     }
 
     @Bean
