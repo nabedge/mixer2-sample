@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <title>this is foo</title>
+    <link rel="stylesheet" type="text/css" href="../m2static/css/main.css" media="all" />
+</head>
+<body>
+
+  <div id="header">
+      <h3>ここにはパーツ取りhtmlからヘッダが取り込まれる予定</h3>
+      <p>全部のテンプレートにヘッダ、フッタを書くのは大変だし、APサーバ側でやるべき。</p>
+      <a href="../m2template/index.html">indexへ戻る</a>
+  </div>
+
+  <div id="content">
+    <h1>ここはfooコンテンツのページ</h1>
+    <p>なんか好きなように書く。</p>
+    <p>なんか好きなように書く。</p>
+    <p>なんか好きなように書く。</p>
+    <p>なんか好きなように書く。</p>
+
+    <hr />
+
+    <h3>JavaScriptのサンプル：たとえば、angular.jsを使ってみる</h3>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+    <script id="valueJson" type="text/javascript">//<![CDATA[
+        var valueJson = { message: "テンプレに直接書いてあるjsonのmessageです" };
+        // テンプレート上での確認に必要なデータを別のscriptタグでベタ書きしておく。
+        // APサーバ上で稼働させるときはこのscriptタグ自体をreplaceする。
+    //]]></script>
+    <script type="text/javascript">//<![CDATA[
+        var myAppModule = angular.module("myApp", []);
+        myAppModule.controller("HelloController",function($scope){
+            $scope.message = valueJson.message;
+        });
+    //]]></script>
+    <div data-ng-app="myApp">
+        <ul>
+            <li data-ng-controller="HelloController" style="color:red;">{{message}}</li>
+            <li>htmlモックをブラウザで開いているだけの状態であっても、ダミーデータを直接埋め込んでおくことによってJSの動作確認ができる、というところがポイント。</li>
+            <li>APサーバ上では、ダミーデータを埋め込んだscriptタグ自体をまるっとreplaceする。</li>
+        </ul>
+    </div>
+
+  </div>
+
+  <div id="footer">
+      <h3>ここにはパーツ取りhtmlからフッタが取り込まれる予定</h3>
+    <p>全部のテンプレートにヘッダ、フッタを書くのは大変だし、APサーバ側でやるべき。</p>
+  </div>
+
+</body>
+</html>
