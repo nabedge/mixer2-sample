@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<style type="text/css">
+@font-face {
+	font-family: "IPAexGothic";
+ 	src: url("http://localhost:8080/ipaexg.ttf"); 
+	-fs-pdf-font-embed: embed;
+	-fs-pdf-font-encoding: Identity-H;
+}
+
+body {
+	font-family: "IPAexGothic";
+}
+
+body,table,tr,td,span,div,p {
+	word-wrap: break-word;
+}
+</style>
+</head>
+<body>
+
+    <header>
+        <a href="/bill/pdf">get pdf</a>
+    </header>
+
+	<h1>請求書</h1>
+	<table>
+		<tr>
+			<td><span id="billSource">ここに請求元</span>
+			</td>
+		</tr>
+		<tr>
+			<td><span id="billDestination">ここに請求先</span></td>
+		</tr>
+	</table>
+</body>
+</html>

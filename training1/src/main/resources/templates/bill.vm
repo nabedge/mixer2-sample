@@ -1,0 +1,8 @@
+<table>
+<tr>
+<td>${bill.source}</td>
+</tr>
+<tr>
+<td>${bill.destination}</td>
+</tr>
+</table>
