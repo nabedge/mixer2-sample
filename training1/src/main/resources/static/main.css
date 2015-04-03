@@ -1,0 +1,27 @@
+@font-face {
+    font-family: "IPAexGothic";
+    src: url("ipaexg.ttf"); 
+    -fs-pdf-font-embed: embed;
+    -fs-pdf-font-encoding: Identity-H;
+}
+
+* {
+    font-family: "IPAexGothic";
+}
+
+body {
+    background-image: url("logo_site.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: right bottom;
+}
+
+table {
+    border: 1px #000000 solid;
+    border-collapse: collapse;
+}
+td, th {
+    border: 1px #2b2b2b solid;
+    padding:8px;
+}
+

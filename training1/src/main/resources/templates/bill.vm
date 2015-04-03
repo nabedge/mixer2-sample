@@ -1,8 +1,29 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="UTF-8"/>
+
+<link rel="stylesheet" type="text/css" href="/main.css"/>
+
+</head>
+<body>
+
+    <header>
+        <a href="/bill/pdf">get pdf</a>
+    </header>
+
+    <h1>請求書</h1>
+
 <table>
+#foreach($foo in $bar)
 <tr>
 <td>${bill.source}</td>
 </tr>
 <tr>
 <td>${bill.destination}</td>
 </tr>
+#end
 </table>
+
+</body>
+</html>
+        

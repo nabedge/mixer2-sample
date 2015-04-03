@@ -1,5 +1,6 @@
 package org.mixer2.sample.training1.controller;
 
+import java.io.InputStream;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,10 +27,13 @@ public class BillController {
 
 	@Autowired
 	protected Mixer2Engine mixer2Engine;
-	
+
 	@Autowired
 	protected ResourceLoader resourceLoader;
 	
+	@Autowired
+	protected ApplicationContext appCtx;
+
 	@RequestMapping("/json")
 	@ResponseBody
 	public Bill json() {
@@ -38,37 +42,46 @@ public class BillController {
 		bill.setDestination("bar株式会社");
 		return bill;
 	}
-	
+
 	@RequestMapping("/html")
 	public String html(Model model) {
 		Bill bill = json();
 		model.addAttribute("bill", bill);
 		return "bill";
 	}
-	
+
 	@RequestMapping("/m2html")
 	public String m2html(Model model) {
 		Bill bill = json();
 		model.addAttribute("bill", bill);
 		return "m2bill";
 	}
-	
+
 	@RequestMapping(value = "/pdf", produces = "application/pdf")
-	public void pdf(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void pdf(Model model, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
 		Bill bill = json();
 		model.addAttribute("bill", bill);
+		
 		M2billView m2billView = new M2billView();
-		Html tmplHtml = mixer2Engine.loadHtmlTemplate(resourceLoader.getResource("classpath:/templates/m2bill.html").getInputStream());
-		Html html = m2billView.renderHtml(tmplHtml, model.asMap(), request, response);
 		
-		//html.removeDescendants(A.class);
+		// 
+		appCtx.getAutowireCapableBeanFactory().autowireBean(m2billView);
 		
+		
+		InputStream is = resourceLoader.getResource(
+				"classpath:/templates/m2bill.html").getInputStream();
+		Html tmplHtml = mixer2Engine.loadHtmlTemplate(is);
+		Html html = m2billView.renderHtml(tmplHtml, model.asMap(), request,
+				response);
+
+		// html.removeDescendants(A.class);
+
 		ITextRenderer iTextRenderer = new ITextRenderer();
 		iTextRenderer.setDocumentFromString(mixer2Engine.saveToString(html));
 		iTextRenderer.layout();
 		iTextRenderer.createPDF(response.getOutputStream());
 	}
-	
-	
-	
+
 }
