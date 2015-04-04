@@ -1,31 +1,24 @@
 package org.mixer2.sample.training1.bean;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class Bill {
 
-	private LocalDate issueDate; // 発行日
-	private LocalDate dueDate; // 支払日
-	private String source; // 請求元
+	private Date issueDate; // 発行日
+	private boolean reissue = false; // 再発行か否か
 	private String destination; // 請求先
-	private BigDecimal charge; // 金額
 	private String title; // 但し書き
-
-	public LocalDate getIssueDate() {
-		return issueDate;
-	}
-
-	public void setIssueDate(LocalDate issueDate) {
-		this.issueDate = issueDate;
-	}
-
-	public LocalDate getDueDate() {
-		return dueDate;
-	}
-
-	public void setDueDate(LocalDate dueDate) {
-		this.dueDate = dueDate;
+	private List<Detail> detailList = new ArrayList<Detail>();
+	
+	public BigDecimal calcCharge() {
+	    BigDecimal total = new BigDecimal(0);
+	    for(Detail d : detailList) {
+	        total = total.add(d.calcSubtotal());
+	    }
+	    return total;
 	}
 
 	/**
@@ -43,34 +36,6 @@ public class Bill {
 	}
 
 	/**
-	 * @return the charge
-	 */
-	public BigDecimal getCharge() {
-		return charge;
-	}
-
-	/**
-	 * @param charge the charge to set
-	 */
-	public void setCharge(BigDecimal charge) {
-		this.charge = charge;
-	}
-
-	/**
-	 * @return the source
-	 */
-	public String getSource() {
-		return source;
-	}
-
-	/**
-	 * @param source the source to set
-	 */
-	public void setSource(String source) {
-		this.source = source;
-	}
-
-	/**
 	 * @return the title
 	 */
 	public String getTitle() {
@@ -83,5 +48,30 @@ public class Bill {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	
+
+    public Date getIssueDate() {
+        return issueDate;
+    }
+
+    public void setIssueDate(Date issueDate) {
+        this.issueDate = issueDate;
+    }
+
+    public List<Detail> getDetailList() {
+        return detailList;
+    }
+
+    public void setDetailList(List<Detail> detailList) {
+        this.detailList = detailList;
+    }
+
+    public boolean isReissue() {
+        return reissue;
+    }
+
+    public void setReissue(boolean reissue) {
+        this.reissue = reissue;
+    }
+
+
 }

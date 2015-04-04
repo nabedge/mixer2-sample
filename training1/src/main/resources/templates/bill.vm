@@ -1,29 +1,73 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta charset="UTF-8"/>
-
-<link rel="stylesheet" type="text/css" href="/main.css"/>
-
+<meta charset="UTF-8" />
+<title>請求書</title>
+<link id="mainCssLink" rel="stylesheet" type="text/css" href="/main.css" />
 </head>
 <body>
 
-    <header>
-        <a href="/bill/pdf">get pdf</a>
-    </header>
+    <div id="header">
+        <h4>velocity バージョン</h4>
+        <form method="GET" action="/bill/pdf">
+            <select name="reissue">
+                <option value="false">通常</option>
+                <option value="true">再発行</option>
+            </select>
+            <input type="submit" value="GET PDF" />
+        </form>
+    </div>
 
     <h1>請求書</h1>
 
-<table>
-#foreach($foo in $bar)
-<tr>
-<td>${bill.source}</td>
-</tr>
-<tr>
-<td>${bill.destination}</td>
-</tr>
-#end
-</table>
+    <div style="text-align: right;">
+        <p>
+            発行日 <span id="billIssueDate">$date.format('yyyy-MM-dd',$bill.issueDate)</span>
+        </p>
+        #if ($bill.isReissue)
+        <p id="isReissue">（再発行）</p>
+        #end
+    </div>
 
+    <h2>
+        <span id="billDestination">${bill.destination}</span> 御中
+    </h2>
+
+    <div style="text-align: right;">
+        <h3>株式会社 D3</h3>
+        <p>東京都 渋谷区 オーシャン 1-1-1</p>
+    </div>
+
+    <h3>
+        但：<span id="billTitle">${bill.title}</span>
+    </h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>商品名</th>
+                <th>数量</th>
+                <th>単価</th>
+                <th>金額</th>
+            </tr>
+        </thead>
+        <tbody id="billDetailList">
+            #foreach ($detail in $bill.detailList) 
+            <tr>
+                <td>$detail.productName</td>
+                <td>${detail.count}</td>
+                <td>${detail.unitPrice}</td>
+                <td>${detail.subTotalAsString}</td>
+            </tr>
+            #end
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" style="text-align: right">合計金額:<span id="billCharge">90000</span>円
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <p>あああああああああああああああああああああ</p>
 </body>
 </html>
-        

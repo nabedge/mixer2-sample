@@ -1,0 +1,69 @@
+/**
+ * main style
+ */
+
+body {
+	background-color: #ffffff;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 1000px;
+	padding: 2px;
+}
+
+img {
+	border: none;
+}
+
+td,th {
+	padding: 4px;
+}
+
+thead {
+	background-color: #deefff;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table,th,td {
+	border: 1px #c0c0c0 solid;
+}
+
+#sidebar {
+	float: left;
+	margin: 4px;
+	padding: 2px;
+	width: 120px;
+	background-color: #e0ffff;
+}
+
+#content {
+	margin: 4px;
+	margin-left: 135px;
+	padding: 2px;
+}
+
+#footer {
+	clear: both;
+	margin: 4px;
+	padding: 2px;
+	background-color: #e0ffff;
+	text-align: center;
+}
+
+.m2comment {
+	color: red;
+	border: solid 1px yellow
+}
+
+div.itemBox {
+	margin: 4px;
+}
+
+ul.categoryList {
+	list-style-type: none;
+}
+span.errorMessage {
+	color:red;
+}

@@ -1,18 +1,19 @@
 package org.mixer2.sample.training1;
 
+import javax.servlet.Filter;
+
 import org.mixer2.Mixer2Engine;
 import org.mixer2.spring.webmvc.Mixer2XhtmlViewResolver;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 @SpringBootApplication
 public class Application {
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
-
     }
     
     @Bean
@@ -31,9 +32,12 @@ public class Application {
         return resolver;
     }
     
-//    @Bean
-//    public ControllerClassNameHandlerMapping controllerClassNameHandlerMapping() {
-//    	return new ControllerClassNameHandlerMapping();
-//    }
+    @Bean
+    public Filter characterEncodingFilter() {
+        CharacterEncodingFilter filter = new CharacterEncodingFilter();
+        filter.setEncoding("UTF-8");
+        filter.setForceEncoding(true);
+        return filter;
+    }
 
 }
