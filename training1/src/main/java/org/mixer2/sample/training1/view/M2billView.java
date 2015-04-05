@@ -41,7 +41,7 @@ public class M2billView extends AbstractMixer2XhtmlView {
         html.replaceById("billIssueDate",
                 new DateTime(bill.getIssueDate()).toString("yyyy-MM-dd"));
         // 請求の詳細の部分はMixer2のTableビルダーを使ってtr,tdタグを作り、
-        // テンプレートのtbodyの中をごっそり入れ替える
+        // テンプレートのtbodyの中をごっそり入れ替えるためのtr/tdタグを新たに生成する
         TableBuilder tb = new TableBuilder();
         for (Detail d : bill.getDetailList()) {
             tb.addTr()
