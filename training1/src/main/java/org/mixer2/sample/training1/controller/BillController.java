@@ -1,20 +1,14 @@
 package org.mixer2.sample.training1.controller;
 
 import java.io.InputStream;
-import java.math.BigDecimal;
-import java.util.Arrays;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
-import org.joda.time.DateTime;
 import org.mixer2.Mixer2Engine;
-import org.mixer2.jaxb.xhtml.A;
-import org.mixer2.jaxb.xhtml.Header;
 import org.mixer2.jaxb.xhtml.Html;
 import org.mixer2.sample.training1.bean.Bill;
-import org.mixer2.sample.training1.bean.Detail;
 import org.mixer2.sample.training1.service.BillService;
 import org.mixer2.sample.training1.view.M2billView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +35,7 @@ public class BillController {
 
     @RequestMapping("/json")
     @ResponseBody
-    public Bill json(
-            @RequestParam(required = false, defaultValue = "false") boolean reissue) {
+    public Bill json() {
         Bill bill = billService.createBill();
         return bill;
     }
@@ -51,8 +44,10 @@ public class BillController {
     public String html(
             Model model,
             @RequestParam(required = false, defaultValue = "false") boolean reissue) {
-        Bill bill = json(reissue);
+        Bill bill = json();
         model.addAttribute("bill", bill);
+        // 再発行の表示を入れるかのフラグもmodelに入れておく（あとでviewに渡す）
+        model.addAttribute("reissue", reissue);
         return "bill";
     }
 
@@ -60,8 +55,10 @@ public class BillController {
     public String m2html(
             Model model,
             @RequestParam(required = false, defaultValue = "false") boolean reissue) {
-        Bill bill = json(reissue);
+        Bill bill = json();
         model.addAttribute("bill", bill);
+        // 再発行の表示を入れるかのフラグもmodelに入れておく（あとでviewに渡す）
+        model.addAttribute("reissue", reissue);
         return "m2bill";
     }
 
@@ -72,12 +69,12 @@ public class BillController {
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        // pdfに埋め込む値は画面と同じように取得
-        Bill bill = json(reissue);
+        // pdfに埋め込む値は画面と同じように取得してmodelに入れる
+        Bill bill = json();
         model.addAttribute("bill", bill);
 
-        // 請求書に「再発行」の表示をつけるか
-        bill.setReissue(reissue);
+        // 再発行の表示を入れるかのフラグもmodelに入れておく（あとでviewに渡す）
+        model.addAttribute("reissue", reissue);
 
         // web画面用のテンプレートを読み込んでmixer2のhtml型のインスタンスを作る
         InputStream is = resourceLoader.getResource(
@@ -85,7 +82,7 @@ public class BillController {
         Html tmplHtml = mixer2Engine.loadHtmlTemplate(is);
         IOUtils.closeQuietly(is);
 
-        // 読み込んだテンプレートに対し、画面用のビュークラスを使って値の埋め込みを行う
+        // 読み込んだテンプレートに対し、html画面表示用のビュークラスを流用して値の埋め込みを行う
         M2billView m2billView = new M2billView();
         Html html = m2billView.renderHtml(tmplHtml, model.asMap(), request,
                 response);

@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.joda.time.DateTime;
 import org.mixer2.jaxb.xhtml.Html;
 import org.mixer2.jaxb.xhtml.Tbody;
@@ -15,6 +16,9 @@ import org.mixer2.spring.webmvc.AbstractMixer2XhtmlView;
 import org.mixer2.xhtml.PathAdjuster;
 import org.mixer2.xhtml.builder.TableBuilder;
 
+/**
+ * mixer2による請求書ビュークラス。これは画面表示用とpdf出力とで兼用です。
+ */
 public class M2billView extends AbstractMixer2XhtmlView {
 
     @Override
@@ -22,31 +26,38 @@ public class M2billView extends AbstractMixer2XhtmlView {
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
+        // コントローラから渡された請求情報
         Bill bill = (Bill) model.get("bill");
-        
-        // 再発行フラグが立っていない場合は再発行の表示をはずす
-        if (bill.isReissue() == false) {
-            html.removeById("isReissue");
+
+        // コントローラから再発行フラグも与えられている場合に再発行の表示を追加する.
+        Boolean reissue = (Boolean) model.get("reissue");
+        if (BooleanUtils.isTrue(reissue)) {
+            html.insertAfterId("billIssueDate", "(再発行)");
         }
 
-        // 請求書の内容
+        // 請求書の内容を埋め込む
         html.replaceById("billDestination", bill.getDestination());
         html.replaceById("billTitle", bill.getTitle());
         html.replaceById("billIssueDate",
                 new DateTime(bill.getIssueDate()).toString("yyyy-MM-dd"));
+        // 請求の詳細の部分はMixer2のTableビルダーを使ってtr,tdタグを作り、
+        // テンプレートのtbodyの中をごっそり入れ替える
         TableBuilder tb = new TableBuilder();
         for (Detail d : bill.getDetailList()) {
             tb.addTr()
                 .addTd(d.getProductName())
                 .addTd(Integer.toString(d.getCount()))
                 .addTd(d.getUnitPrice().toPlainString())
-                .addTd(d.calcSubtotal().toPlainString());
+                .addTd(d.getSubtotal().toPlainString());
         }
-        html.getById("billDetailList", Tbody.class).unsetTr();
+        //tbodyタグのなかをカラにする
+        html.getById("billDetailList", Tbody.class).unsetTr(); 
+        // tbodyタグの中に作ったtrタグを入れる
         html.getById("billDetailList", Tbody.class).getTr().addAll(tb.build().getTr());
-        html.replaceById("billCharge", bill.calcCharge().toPlainString());
+        // 合計金額
+        html.replaceById("billCharge", bill.getCharge().toPlainString());
 
-        // replace static file path
+        // すべての静的ファイルへの相対パスを絶対urlに変換する
         Pattern pattern = Pattern.compile("^\\.+/static/(.*)$");
         String ctx = request.getContextPath();
         PathAdjuster.replacePath(html, pattern, "http://localhost:8080" + ctx

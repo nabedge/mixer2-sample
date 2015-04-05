@@ -22,10 +22,7 @@
 }
 
 body {
-    background-image: url("logo_site.png");
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: right bottom;
+	max-width: 960px;
 }
 
 table {

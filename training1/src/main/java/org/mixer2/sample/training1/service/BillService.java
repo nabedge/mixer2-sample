@@ -8,10 +8,16 @@ import org.mixer2.sample.training1.bean.Bill;
 import org.mixer2.sample.training1.bean.Detail;
 import org.springframework.stereotype.Component;
 
+/**
+ * 請求書の情報を取得するビジネスロジックのつもり
+ */
 @Component
 public class BillService {
 
     public Bill createBill() {
+        
+        // データベースの注文テーブルから情報を取得したつもり。
+        
         Detail d1 = new Detail();
         d1.setProductName("イス");
         d1.setCount(10);

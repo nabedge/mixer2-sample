@@ -37,30 +37,29 @@ public class M2billViewTest {
     protected BillService billService;
 
     @Test
-    public void test再発行ではない() throws Exception {
-
-    }
-
-    @Test
     public void test再発行() throws Exception {
 
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();
 
+        // 再発行フラグtrueでのリクエストが来たと想定
+        request.addParameter("reissue", "true");
+
         InputStream is = resourceLoader.getResource(
                 "classpath:/templates/m2bill.html").getInputStream();
         Html tmplHtml = mixer2Engine.loadHtmlTemplate(is);
 
-        Model model = new ExtendedModelMap();
         Bill bill = billService.createBill();
+
+        Model model = new ExtendedModelMap();
         model.addAttribute("bill", bill);
 
         M2billView m2billView = new M2billView();
         Html html = m2billView.renderHtml(tmplHtml, model.asMap(), request,
                 response);
 
+        // <p id="isReissue">再発行</p>というタグが存在することをassert
         Assert.assertNotNull(html.getById("isReissue"));
-
     }
-
+    
 }

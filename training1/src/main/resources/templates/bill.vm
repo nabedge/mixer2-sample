@@ -8,28 +8,21 @@
 
     <div id="header">
         <h4>velocity バージョン</h4>
-        <form method="GET" action="/bill/pdf">
-            <select name="reissue">
-                <option value="false">通常</option>
-                <option value="true">再発行</option>
-            </select>
-            <input type="submit" value="GET PDF" />
-        </form>
     </div>
 
     <h1>請求書</h1>
 
     <div style="text-align: right;">
         <p>
-            発行日 <span id="billIssueDate">$date.format('yyyy-MM-dd',$bill.issueDate)</span>
+            発行日 <span>$dateTool.format('yyyy-MM-dd',$bill.issueDate)</span>
+            #if ($reissue)
+                （再発行）
+            #end
         </p>
-        #if ($bill.isReissue)
-        <p id="isReissue">（再発行）</p>
-        #end
     </div>
 
     <h2>
-        <span id="billDestination">${bill.destination}</span> 御中
+        <span>${bill.destination}</span> 御中
     </h2>
 
     <div style="text-align: right;">
@@ -38,7 +31,7 @@
     </div>
 
     <h3>
-        但：<span id="billTitle">${bill.title}</span>
+        但：<span>${bill.title}</span>
     </h3>
 
     <table>
@@ -50,24 +43,25 @@
                 <th>金額</th>
             </tr>
         </thead>
-        <tbody id="billDetailList">
+        <tbody>
             #foreach ($detail in $bill.detailList) 
             <tr>
                 <td>$detail.productName</td>
                 <td>${detail.count}</td>
                 <td>${detail.unitPrice}</td>
-                <td>${detail.subTotalAsString}</td>
+                <td>$numberTool.format("#0.00",$detail.subtotal)</td>
             </tr>
             #end
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="4" style="text-align: right">合計金額:<span id="billCharge">90000</span>円
+                <td colspan="4" style="text-align: right">合計金額:${bill.charge}円
                 </td>
             </tr>
         </tfoot>
     </table>
 
-    <p>あああああああああああああああああああああ</p>
+    <img src="/logo_site.png" style="margin:20px; "/>
+
 </body>
 </html>

@@ -2,24 +2,25 @@ package org.mixer2.sample.training1.bean;
 
 import java.math.BigDecimal;
 
+/**
+ * 請求の商品毎の詳細
+ */
 public class Detail {
 
-    private String productName; // 商品名
+    /** 商品名 */
+    private String productName;
 
-    private int count = 0; // 数量
+    /** 数量 */
+    private int count = 0;
     
+    /** 単価 */
     private BigDecimal unitPrice = new BigDecimal(0); //単価
-    
-    /** velocityだとBigDecimalを直接表示するのが面倒くさいので専用の文字列化メソッドを用意しておく */
-    public String getSubTotalAsString() {
-        return calcSubtotal().toPlainString();
-    }
     
     /**
      * 単価x数量を返す
      * @return
      */
-    public BigDecimal calcSubtotal() {
+    public BigDecimal getSubtotal() {
         return unitPrice.multiply(new BigDecimal(count));
     }
     

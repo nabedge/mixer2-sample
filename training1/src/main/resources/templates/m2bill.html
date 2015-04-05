@@ -8,13 +8,6 @@
 
     <div id="header">
         <h4>mixer2 バージョン</h4>
-        <form method="GET" action="/bill/pdf">
-            <select name="isReissue">
-                <option value="false">通常</option>
-                <option value="true">再発行</option>
-            </select>
-            <input type="submit" value="GET PDF" />
-        </form>
     </div>
 
     <h1>請求書</h1>
@@ -23,7 +16,6 @@
         <p>
             発行日 <span id="billIssueDate">2015-04-01</span>
         </p>
-        <p id="isReissue">（再発行）</p>
     </div>
 
     <h2>
@@ -64,11 +56,13 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="4" style="text-align: right">合計金額:<span id="billCharge">90000</span>円
+                <td colspan="4" style="text-align: right">合計金額:<span id="billCharge">999</span>円
                 </td>
             </tr>
         </tfoot>
     </table>
+
+    <img src="../static/logo_site.png" style="width:262px; height:240px; margin:20px;"/>
 
     <p>あああああああああああああああああああああ</p>
 </body>
