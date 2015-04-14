@@ -13,6 +13,7 @@ import org.mixer2.sample.training1.form.BillForm;
 import org.mixer2.sample.training1.service.BillService;
 import org.mixer2.sample.training1.view.M2billView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +25,9 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 @RequestMapping("/bill")
 public class BillController {
 
+	@Autowired
+	private ApplicationContext appCtx;
+	
 	@Autowired
 	protected Mixer2Engine mixer2Engine;
 
@@ -75,8 +79,13 @@ public class BillController {
 		Html tmplHtml = mixer2Engine.loadHtmlTemplate(is);
 		IOUtils.closeQuietly(is);
 
-		// 読み込んだテンプレートに対し、html画面表示用のビュークラスを流用して値の埋め込みを行う
+		// html画面表示用のビュークラスをpdf出力に流用するためにまずnewする
 		M2billView m2billView = new M2billView();
+
+		// M2billViewクラスに対して自力でDIする(@Autowiredや@Valueで指定されたプロパティに値を自動挿入）
+		appCtx.getAutowireCapableBeanFactory().autowireBean(m2billView);
+		
+		// 読み込んだテンプレートに対し、
 		Html html = m2billView.renderHtml(tmplHtml, model.asMap(), request,
 				response);
 

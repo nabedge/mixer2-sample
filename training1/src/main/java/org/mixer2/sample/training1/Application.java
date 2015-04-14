@@ -1,5 +1,7 @@
 package org.mixer2.sample.training1;
 
+import java.util.Properties;
+
 import javax.servlet.Filter;
 
 import org.mixer2.Mixer2Engine;
@@ -8,6 +10,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.servlet.view.velocity.VelocityConfigurer;
+import org.springframework.web.servlet.view.velocity.VelocityViewResolver;
 
 @SpringBootApplication
 public class Application {
@@ -19,6 +23,30 @@ public class Application {
     @Bean
     public Mixer2Engine mixer2Engine() {
     	return new Mixer2Engine();
+    }
+
+    @Bean
+    public VelocityConfigurer velocityConfigrer() {
+    	VelocityConfigurer vc = new VelocityConfigurer();
+    	vc.setResourceLoaderPath("classpath:/templates/");
+    	Properties props = new Properties();
+    	props.setProperty("input.encoding", "UTF-8");
+    	props.setProperty("output.encoding", "UTF-8");
+    	vc.setVelocityProperties(props);
+    	return vc;
+    }
+    
+
+    @Bean
+    public VelocityViewResolver velocityViewResolver() {
+    	VelocityViewResolver resolver = new VelocityViewResolver();
+    	resolver.setCache(false);
+    	resolver.setSuffix(".vm");
+    	resolver.setContentType("text/html; charset=UTF-8");
+    	resolver.setDateToolAttribute("dateTool");
+    	resolver.setNumberToolAttribute("numberTool");
+    	resolver.setOrder(101);
+    	return resolver;
     }
     
     @Bean
