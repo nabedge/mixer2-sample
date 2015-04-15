@@ -27,7 +27,7 @@ public class BillController {
 
 	@Autowired
 	private ApplicationContext appCtx;
-	
+
 	@Autowired
 	protected Mixer2Engine mixer2Engine;
 
@@ -84,8 +84,8 @@ public class BillController {
 
 		// M2billViewクラスに対して自力でDIする(@Autowiredや@Valueで指定されたプロパティに値を自動挿入）
 		appCtx.getAutowireCapableBeanFactory().autowireBean(m2billView);
-		
-		// 読み込んだテンプレートに対し、
+
+		// 読み込んでおいたテンプレートをviewクラスに処理させて値を埋め込む
 		Html html = m2billView.renderHtml(tmplHtml, model.asMap(), request,
 				response);
 

@@ -49,8 +49,8 @@ public class M2billView extends AbstractMixer2XhtmlView {
 		html.getById("billDestination", Span.class).replaceInner(
 				bill.getDestination());
 		html.getById("billTitle", Span.class).replaceInner(bill.getTitle());
-		html.getById("billIssueDate", Span.class).replaceInner(
-				new DateTime(bill.getIssueDate()).toString("yyyy-MM-dd"));
+		String issueDate = new DateTime(bill.getIssueDate()).toString("yyyy-MM-dd");
+		html.getById("billIssueDate", Span.class).replaceInner(issueDate);
 
 		// 請求の詳細の部分
 		// テンプレートのtbodyの中をごっそり入れ替えるためのtr/tdタグを新たに生成する
