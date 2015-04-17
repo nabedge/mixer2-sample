@@ -1,6 +1,6 @@
 package org.mixer2.sample.training1.view;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import java.io.InputStream;
 
@@ -45,19 +45,21 @@ public class M2billViewTest {
                 "classpath:/templates/m2bill.html").getInputStream();
         Html tmplHtml = mixer2Engine.loadHtmlTemplate(is);
 
-        // 再発行フラグつきでのリクエストがあったというていでビューを実行
+        // 再発行フラグつきでのリクエストがあったというていでビューを実行する。
+        // まずmodelを準備
         Model model = new ExtendedModelMap();
         model.addAttribute("reissue", true);
         model.addAttribute("bill", billService.createBill());
+        // ビューを準備
         M2billView m2billView = new M2billView();
 		appCtx.getAutowireCapableBeanFactory().autowireBean(m2billView);
-        MockHttpServletRequest request = new MockHttpServletRequest();
+		// request,responseはモックで。
+		MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();
+        // ビューを実行する
         Html html = m2billView.renderHtml(tmplHtml, model.asMap(), request,
                 response);
-
         // ビューの実行結果に<span id="reissue">(再発行)</span>が存在することをassert
-        System.out.println(mixer2Engine.saveToString(html));
         assertNotNull(html.getBody().getById("reissue", Span.class));
     }
     
