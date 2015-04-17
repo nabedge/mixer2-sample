@@ -21,6 +21,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 
+/**
+ * test for view class (not for controller class)
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 public class M2billViewTest {
