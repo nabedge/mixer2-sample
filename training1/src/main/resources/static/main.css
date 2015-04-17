@@ -1,3 +1,15 @@
+@charset "UTF-8";  
+@page {
+    size: A4;
+    margin: 10%;
+    @top-left {
+        content: "請求書"; /* 日本語だとうまく出ない。flyng soucerのバグ？ */
+    }
+    @top-right {
+        content: "Page " counter(page) " of " counter(pages);
+    }
+}
+
 @font-face {
     font-family: "IPAexGothic";
     src: url("ipaexg.ttf"); 
@@ -10,10 +22,7 @@
 }
 
 body {
-    background-image: url("logo_site.png");
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: right bottom;
+	max-width: 960px;
 }
 
 table {
@@ -23,5 +32,6 @@ table {
 td, th {
     border: 1px #2b2b2b solid;
     padding:8px;
+    text-align:right;
 }
 

@@ -1,0 +1,31 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="UTF-8" />
+<title>top</title>
+</head>
+<body>
+
+    <ul>
+        <li><a href="/bill/json">json</a></li>
+        <li>Velocityによるhtml
+            <ul>
+                <li><a href="/bill/html">/bill/html</a></li>
+                <li><a href="/bill/html?reissue=true">/bill/html?reissue=true</a></li>
+            </ul>
+        </li>
+        <li>Mixer2によるhtml
+            <ul>
+                <li><a href="/bill/m2html">/bill/m2html</a></li>
+                <li><a href="/bill/m2html?reissue=true">/bill/m2html?reissue=true</a></li>
+            </ul>
+        </li>
+        <li>Mixer2+FlyingSaucerによるPDF
+            <ul>
+                <li><a href="/bill/pdf">/bill/pdf</a></li>
+                <li><a href="/bill/pdf?reissue=true">/bill/pdf?reissue=true</a></li>
+            </ul>
+        </li>
+    </ul>
+
+</body>
+</html>

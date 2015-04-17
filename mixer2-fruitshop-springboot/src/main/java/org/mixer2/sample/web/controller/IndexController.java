@@ -1,6 +1,9 @@
 package org.mixer2.sample.web.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.mixer2.sample.dto.Category;
@@ -43,4 +46,18 @@ public class IndexController {
         return "foo";
     }
 
+    
+    /**
+     * 強制的にøut of memoryを発生させる
+     * @return
+     */
+    @RequestMapping(value = "/oom")
+    @SuppressWarnings("rawtypes")
+    public String forceOutOfMemory() {
+        List<Map> list = new ArrayList<Map>();
+        while (true) {
+            Map map = new HashMap(1000);
+            list.add(map);
+        }
+    }
 }
