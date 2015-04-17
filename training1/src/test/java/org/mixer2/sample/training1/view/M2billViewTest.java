@@ -1,32 +1,33 @@
 package org.mixer2.sample.training1.view;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.InputStream;
 
-import org.apache.catalina.core.ApplicationContext;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mixer2.Mixer2Engine;
 import org.mixer2.jaxb.xhtml.Html;
+import org.mixer2.jaxb.xhtml.Span;
 import org.mixer2.sample.training1.Application;
-import org.mixer2.sample.training1.bean.Bill;
-import org.mixer2.sample.training1.controller.BillController;
 import org.mixer2.sample.training1.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { Application.class })
+@SpringApplicationConfiguration(classes = Application.class)
 public class M2billViewTest {
 
+	@Autowired
+	protected ApplicationContext appCtx;
+	
     @Autowired
     protected Mixer2Engine mixer2Engine;
 
@@ -39,27 +40,25 @@ public class M2billViewTest {
     @Test
     public void test再発行() throws Exception {
 
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        MockHttpServletResponse response = new MockHttpServletResponse();
-
-        // 再発行フラグtrueでのリクエストが来たと想定
-        request.addParameter("reissue", "true");
-
+        // テンプレート読み込み
         InputStream is = resourceLoader.getResource(
                 "classpath:/templates/m2bill.html").getInputStream();
         Html tmplHtml = mixer2Engine.loadHtmlTemplate(is);
 
-        Bill bill = billService.createBill();
-
+        // 再発行フラグつきでのリクエストがあったというていでビューを実行
         Model model = new ExtendedModelMap();
-        model.addAttribute("bill", bill);
-
+        model.addAttribute("reissue", true);
+        model.addAttribute("bill", billService.createBill());
         M2billView m2billView = new M2billView();
+		appCtx.getAutowireCapableBeanFactory().autowireBean(m2billView);
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        MockHttpServletResponse response = new MockHttpServletResponse();
         Html html = m2billView.renderHtml(tmplHtml, model.asMap(), request,
                 response);
 
-        // <p id="isReissue">再発行</p>というタグが存在することをassert
-        Assert.assertNotNull(html.getById("isReissue"));
+        // ビューの実行結果に<span id="reissue">(再発行)</span>が存在することをassert
+        System.out.println(mixer2Engine.saveToString(html));
+        assertNotNull(html.getBody().getById("reissue", Span.class));
     }
     
 }

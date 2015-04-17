@@ -27,52 +27,8 @@ public class Application {
 	}
 
 	@Bean
-	public EmbeddedServletContainerFactory embeddedServletContainerFactory() {
-		TomcatEmbeddedServletContainerFactory factory = new TomcatEmbeddedServletContainerFactory();
-
-		factory.setUriEncoding("UTF-8");
-		//factory.setContextPath("/hoge");
-		factory.setSessionTimeout(1800, TimeUnit.SECONDS);
-		factory.addContextCustomizers(new TomcatContextCustomizer() {
-			@Override
-			public void customize(Context context) {
-				StandardJarScanner jarScanner = new StandardJarScanner();
-				jarScanner.setScanAllFiles(false);
-				jarScanner.setScanBootstrapClassPath(false);
-				jarScanner.setScanAllDirectories(false);
-				jarScanner.setScanClassPath(false);
-				context.setJarScanner(jarScanner);
-			}
-		});
-		return factory;
-	}
-
-	@Bean
 	public Mixer2Engine mixer2Engine() {
 		return new Mixer2Engine();
-	}
-
-	@Bean
-	public VelocityConfigurer velocityConfigrer() {
-		VelocityConfigurer vc = new VelocityConfigurer();
-		vc.setResourceLoaderPath("classpath:/templates/");
-		Properties props = new Properties();
-		props.setProperty("input.encoding", "UTF-8");
-		props.setProperty("output.encoding", "UTF-8");
-		vc.setVelocityProperties(props);
-		return vc;
-	}
-
-	@Bean
-	public VelocityViewResolver velocityViewResolver() {
-		VelocityViewResolver resolver = new VelocityViewResolver();
-		resolver.setCache(false);
-		resolver.setSuffix(".vm");
-		resolver.setContentType("text/html; charset=UTF-8");
-		resolver.setDateToolAttribute("dateTool");
-		resolver.setNumberToolAttribute("numberTool");
-		resolver.setOrder(101);
-		return resolver;
 	}
 
 	@Bean
@@ -93,5 +49,35 @@ public class Application {
 		filter.setForceEncoding(true);
 		return filter;
 	}
+
+//	@Bean
+//	public VelocityConfigurer velocityConfigrer() {
+//		VelocityConfigurer vc = new VelocityConfigurer();
+//		vc.setResourceLoaderPath("classpath:/templates/");
+//		Properties props = new Properties();
+//		props.setProperty("input.encoding", "UTF-8");
+//		props.setProperty("output.encoding", "UTF-8");
+//		vc.setVelocityProperties(props);
+//		return vc;
+//	}
+//
+//	@Bean
+//	public VelocityViewResolver velocityViewResolver() {
+//		VelocityViewResolver resolver = new VelocityViewResolver();
+//		resolver.setCache(false);
+//		resolver.setSuffix(".vm");
+//		resolver.setContentType("text/html; charset=UTF-8");
+//		resolver.setDateToolAttribute("dateTool");
+//		resolver.setNumberToolAttribute("numberTool");
+//		resolver.setOrder(101);
+//		return resolver;
+//	}
+//
+//	@Bean
+//	public EmbeddedServletContainerFactory embeddedServletContainerFactory() {
+//		TomcatEmbeddedServletContainerFactory factory = new TomcatEmbeddedServletContainerFactory();
+//		factory.setUriEncoding("UTF-8");
+//		return factory;
+//	}
 
 }

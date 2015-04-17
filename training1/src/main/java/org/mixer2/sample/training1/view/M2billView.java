@@ -16,6 +16,7 @@ import org.mixer2.sample.training1.bean.Bill;
 import org.mixer2.sample.training1.bean.Detail;
 import org.mixer2.spring.webmvc.AbstractMixer2XhtmlView;
 import org.mixer2.xhtml.PathAdjuster;
+import org.mixer2.xhtml.TagCreator;
 import org.mixer2.xhtml.builder.TableBuilder;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -42,7 +43,9 @@ public class M2billView extends AbstractMixer2XhtmlView {
 		// コントローラから再発行フラグも与えられている場合に再発行の表示を追加する.
 		Boolean reissue = (Boolean) model.get("reissue");
 		if (BooleanUtils.isTrue(reissue)) {
-			html.insertAfterId("billIssueDate", "(再発行)");
+			Span span = TagCreator.spanWithId("reissue");
+			span.getContent().add("再発行");
+			html.insertAfterId("billIssueDate", span);
 		}
 
 		// 請求書の内容を埋め込む
