@@ -12,13 +12,7 @@ import org.springframework.boot.context.embedded.ServletContextInitializer;
 
 /**
  * <p>
- * セッション情報をcookieに格納するときのcookie名の指定。<br />
- * urlrewritingによるセッション維持も無効にする。<br />
- * set-cookieヘッダにhttpOnly属性も付けるようにする
- * </p>
- * <p>
- * 通常のWebApplicationであればWEB-INF/web.xmlの
- * session-configタグやcookie-configタグを使って設定するのと等価。
+ * equivalent to  "session-config" or "cookie-config" tag on WEB-INF/web.xml . 
  * </p>
  */
 public class SessionTrackingConfigListener implements ServletContextInitializer {

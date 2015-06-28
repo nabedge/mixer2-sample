@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import javax.sql.DataSource;
+
 import org.apache.catalina.valves.CrawlerSessionManagerValve;
 import org.mixer2.Mixer2Engine;
 import org.mixer2.spring.webmvc.Mixer2XhtmlViewResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
@@ -17,7 +19,11 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Controller;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.filter.CharacterEncodingFilter;
@@ -31,22 +37,47 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 /**
  * The SpringMVC application context. <br/>
- * すべての@Controllerクラスがこれでコンポーネントスキャンされる。 <br />
  *
  */
-@EnableWebMvc
 @Configuration
-@ComponentScan(useDefaultFilters = false, basePackages = { "org.mixer2.sample.web.controller" }, //
-includeFilters = { @ComponentScan.Filter(Controller.class) })
-public class MvcConfiguration extends WebMvcConfigurerAdapter {
+@EnableWebMvc
+@EnableAutoConfiguration
+@EnableTransactionManagement
+@ComponentScan(basePackages = { "org.mixer2.sample" })
+public class SpringConfig extends WebMvcConfigurerAdapter {
 
-    final Logger logger = LoggerFactory.getLogger(getClass());
+    private static final Logger logger = LoggerFactory.getLogger(SpringConfig.class);
 
-    @Autowired
-    protected Mixer2Engine mixer2Engine;
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
 
-    @Autowired
-    protected MessageSource messageSource;
+    @Bean
+    public DataSource dataSource() {
+        logger.debug("creating datasource...");
+        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+        builder.setType(EmbeddedDatabaseType.H2);
+        builder.addScript("classpath:sql/dbinit.sql");
+        return builder.build();
+    }
+
+    @Bean
+    public MessageSource messageSource() {
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        // messageSource.setBasenames("classpath:messages","classpath:messages/validation");
+        messageSource.setBasenames("classpath:messages");
+        messageSource.setUseCodeAsDefaultMessage(true);
+        messageSource.setDefaultEncoding("UTF-8");
+        // # -1 : never reload, 0 always reload
+        // messageSource.setCacheSeconds(0);
+        return messageSource;
+    }
+
+    @Bean
+    public Mixer2Engine mixer2Engine() {
+        return new Mixer2Engine();
+    }
 
     @Bean
     public EmbeddedServletContainerFactory embeddedServletContainerFactory() {
@@ -61,8 +92,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
         CrawlerSessionManagerValve crawlerSessionManagerValve = new CrawlerSessionManagerValve();
         factory.addContextValves(crawlerSessionManagerValve);
 
-        // factory.addErrorPages(new ErrorPage(HttpStatus.404,
-        // "/notfound.html");
+        // factory.addErrorPages(new ErrorPage(HttpStatus.404, "/notfound.html");
         return factory;
     }
 
@@ -109,7 +139,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
     @Bean
     public Validator getValidator() {
         final LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
-        validator.setValidationMessageSource(messageSource);
+        validator.setValidationMessageSource(messageSource());
         return validator;
     }
 
@@ -119,7 +149,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
         resolver.setPrefix("classpath:m2mockup/m2template/");
         resolver.setSuffix(".html");
         resolver.setBasePackage("org.mixer2.sample.web.view");
-        resolver.setMixer2Engine(mixer2Engine);
+        resolver.setMixer2Engine(mixer2Engine());
         resolver.setOrder(100);
         return resolver;
     }
