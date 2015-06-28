@@ -15,7 +15,7 @@
 		<slf4j.api.version>1.7.6</slf4j.api.version>
 		<spring.version>4.0.3.RELEASE</spring.version>
 		<spring.boot.version>1.1.4.RELEASE</spring.boot.version>
-		<mixer2.version>1.2.32</mixer2.version>
+		<mixer2.version>1.2.36</mixer2.version>
 		<tomcat.version>7.0.52</tomcat.version>
 	</properties>
 
