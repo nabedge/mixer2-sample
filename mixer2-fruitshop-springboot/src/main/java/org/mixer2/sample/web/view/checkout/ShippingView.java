@@ -89,7 +89,8 @@ public class ShippingView extends AbstractMixer2XhtmlView {
                 logger.debug("##### " + e.getField());
                 if (span.hasCssClass(e.getField())) {
                     span.unsetContent();
-                    span.getContent().add("Please input " + e.getField() + ".");
+                    span.getContent().add(e.getDefaultMessage());
+                    logger.warn(e.getRejectedValue());
                     replaced = true;
                     continue;
                 }
