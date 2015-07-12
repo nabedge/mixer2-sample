@@ -20,11 +20,21 @@ public class Main {
 	private static final int PORT = 8080;
 
 	//
-	private static final String TO_ADDR = "nabedge@mixer2.org", TO_NAME = "nabedge",
-			FROM_ADDR = "me@mixer2.org", FROM_NAME = "me",
+	private static final String TO_ADDR = "nabedge@mixer2.org",
+			TO_NAME = "nabedge", FROM_ADDR = "me@mixer2.org", FROM_NAME = "me",
 			SUBJECT = "Sample-title";
 
-	public static void main(String[] args) throws EmailException {
+	public static void main(String[] args) {
+		Main m = new Main();
+		try {
+			m.sendEmail();
+		} catch (EmailException e) {
+			logger.warn("Failed to sed Email");
+			e.printStackTrace();
+		}
+	}
+
+	private void sendEmail() throws EmailException {
 		// Create the email message
 		HtmlEmail email = new HtmlEmail();
 		email.setHostName(HOST_NAME);
@@ -34,14 +44,17 @@ public class Main {
 		email.setSubject(SUBJECT);
 
 		// Create Html from template
-		InputStream is = Main.class.getClassLoader().getResourceAsStream("m2mockup/m2template/mail.html");
+		InputStream is = Main.class.getClassLoader().getResourceAsStream(
+				"m2mockup/m2template/mail.html");
 		Mixer2Engine m2e = new Mixer2Engine();
 		Html html;
 		try {
 			// Set the html message
 			html = m2e.loadHtmlTemplate(is);
-			html.getById("headline", H1.class).replaceInner("This is sample to apply mixer2 to E-mail");
-			html.getById("content", P.class).replaceInner("Success to send E-mail");
+			html.getById("headline", H1.class).replaceInner(
+					"This is sample to apply mixer2 to E-mail");
+			html.getById("content", P.class).replaceInner(
+					"Success to send E-mail");
 			email.setHtmlMsg(m2e.saveToString(html));
 		} catch (IOException e) {
 			logger.warn("Mixer2 failed to loadHTMLTemplate");
