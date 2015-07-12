@@ -17,7 +17,7 @@ public class Main {
 
 	// Server setting
 	private static final String HOST_NAME = "localhost";
-	private static final int PORT = 8080;
+	private static final int PORT_NUMER = 1025;
 
 	//
 	private static final String TO_ADDR = "nabedge@mixer2.org",
@@ -38,7 +38,7 @@ public class Main {
 		// Create the email message
 		HtmlEmail email = new HtmlEmail();
 		email.setHostName(HOST_NAME);
-		email.setSmtpPort(PORT);
+		email.setSmtpPort(PORT_NUMER);
 		email.addTo(TO_ADDR, TO_NAME);
 		email.setFrom(FROM_ADDR, FROM_NAME);
 		email.setSubject(SUBJECT);
