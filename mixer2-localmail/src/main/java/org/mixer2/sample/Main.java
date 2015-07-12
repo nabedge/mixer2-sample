@@ -29,7 +29,7 @@ public class Main {
 		try {
 			m.sendEmail();
 		} catch (EmailException e) {
-			logger.warn("Failed to sed Email");
+			logger.warn("Failed to send Email");
 			e.printStackTrace();
 		}
 	}
