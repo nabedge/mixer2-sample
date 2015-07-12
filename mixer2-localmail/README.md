@@ -5,7 +5,7 @@ Start FakeSMTP.
 ```
 java -jar fakeSMTP.x.x.jar
 ```
-Set port:8080, directory:any directory, and start server.
+Set port:1025, directory:any directory, and start server.
 Run Main.java.
 You will get HTML mail which values are replaced by Mixer2.
 
@@ -20,6 +20,6 @@ FakeSMTPの公式サイトからjarをダウンロードし、ホーム直下に
 ```
 java -jar fakeSMTP.x.x.jar
 ```
-ポート番号を8080、メッセージ保存先を任意のディレクトリに指定し、サーバー起動を押してください。
+ポート番号を1025、メッセージ保存先を任意のディレクトリに指定し、サーバー起動を押してください。
 
 この状態でMainを実行すると、HTMLメールを受け取ることができます。
