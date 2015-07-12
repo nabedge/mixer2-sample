@@ -1,0 +1,15 @@
+/**
+ * main style
+ */
+
+body {
+	background-color: #aaaaaa;
+}
+
+h1.headline{
+	color: #fb2b04;
+}
+
+p.content{
+	color: #ffffff
+}

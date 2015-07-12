@@ -19,7 +19,6 @@ public class Main {
 	private static final String HOST_NAME = "localhost";
 	private static final int PORT_NUMER = 1025;
 
-	//
 	private static final String TO_ADDR = "nabedge@mixer2.org",
 			TO_NAME = "nabedge", FROM_ADDR = "me@mixer2.org", FROM_NAME = "me",
 			SUBJECT = "Sample-title";
