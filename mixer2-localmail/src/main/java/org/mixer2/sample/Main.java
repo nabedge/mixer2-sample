@@ -17,7 +17,7 @@ public class Main {
 
 	// Server setting
 	private static final String HOST_NAME = "localhost";
-	private static final int PORT_NUMER = 1025;
+	private static final int PORT_NUMER = 25;
 
 	private static final String TO_ADDR = "nabedge@example.com",
 			TO_NAME = "nabedge", FROM_ADDR = "me@example.com", FROM_NAME = "me",
