@@ -89,28 +89,28 @@ public class PurchaseTest {
                 .click();
         assertTrue(driver.findElement(By.id("itemName")).getText().contains("strawberry"));
 
-        // add to cart
-        driver.findElement(By.id("addToCart")).click();
-        String itemName = driver.findElement(By.id("cartTbody"))//
-                .findElements(By.className("itemName")).get(0).getText().trim();
-        assertTrue(itemName.contains("strawberry"));
-
-        // proceed checkout (shipping form)
-        driver.findElement(By.id("proceedToCheckout")).click();
-        
-        // input shipping and assert
-        driver.findElement(By.id("firstName")).sendKeys("John");
-        driver.findElement(By.id("lastName")).sendKeys("Doh");
-        driver.findElement(By.id("zipCode")).sendKeys("99999");
-        driver.findElement(By.id("address")).sendKeys("foo bar street 99");
-        driver.findElement(By.id("goToConfirmation")).click();
-        String itemName2 = driver.findElement(By.id("cartTbody"))//
-                .findElements(By.className("itemName")).get(0).getText().trim();
-        assertTrue(itemName2.contains("strawberry"));
-        assertTrue(driver.findElement(By.id("shipToAddress")).getText().contains("foo bar street 99"));
-        
-        // order complete
-        driver.findElement(By.id("orderComplete")).click();
+//        // add to cart
+//        driver.findElement(By.id("addToCart")).click();
+//        String itemName = driver.findElement(By.id("cartTbody"))//
+//                .findElements(By.className("itemName")).get(0).getText().trim();
+//        assertTrue(itemName.contains("strawberry"));
+//
+//        // proceed checkout (shipping form)
+//        driver.findElement(By.id("proceedToCheckout")).click();
+//        
+//        // input shipping and assert
+//        driver.findElement(By.id("firstName")).sendKeys("John");
+//        driver.findElement(By.id("lastName")).sendKeys("Doh");
+//        driver.findElement(By.id("zipCode")).sendKeys("99999");
+//        driver.findElement(By.id("address")).sendKeys("foo bar street 99");
+//        driver.findElement(By.id("goToConfirmation")).click();
+//        String itemName2 = driver.findElement(By.id("cartTbody"))//
+//                .findElements(By.className("itemName")).get(0).getText().trim();
+//        assertTrue(itemName2.contains("strawberry"));
+//        assertTrue(driver.findElement(By.id("shipToAddress")).getText().contains("foo bar street 99"));
+//        
+//        // order complete
+//        driver.findElement(By.id("orderComplete")).click();
     }
 
 }
