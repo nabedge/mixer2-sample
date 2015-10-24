@@ -1,4 +1,4 @@
-package org.mixer2.service;
+package org.mixer2.sample.service;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
