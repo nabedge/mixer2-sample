@@ -29,7 +29,6 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -40,7 +39,6 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
  *
  */
 @Configuration
-@EnableWebMvc
 @EnableAutoConfiguration
 @EnableTransactionManagement
 @ComponentScan(basePackages = { "org.mixer2.sample" })
