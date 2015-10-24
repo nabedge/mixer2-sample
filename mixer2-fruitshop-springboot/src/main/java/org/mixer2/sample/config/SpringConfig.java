@@ -32,7 +32,6 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 /**
  * The SpringMVC application context. <br/>
@@ -57,6 +56,7 @@ public class SpringConfig extends WebMvcConfigurerAdapter {
         EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
         builder.setType(EmbeddedDatabaseType.H2);
         builder.addScript("classpath:sql/dbinit.sql");
+        builder.continueOnError(true);
         return builder.build();
     }
 
@@ -74,7 +74,7 @@ public class SpringConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public Mixer2Engine mixer2Engine() {
-        return new Mixer2Engine();
+        return Mixer2EngineSingleton.getInstance();
     }
 
     @Bean
@@ -152,13 +152,13 @@ public class SpringConfig extends WebMvcConfigurerAdapter {
         return resolver;
     }
 
-    @Bean
-    public InternalResourceViewResolver internalResourceViewResolver() {
-        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-        resolver.setPrefix("/WEB-INF/jsp/");
-        resolver.setSuffix(".jsp");
-        resolver.setOrder(1000);
-        return resolver;
-    }
+//    @Bean
+//    public InternalResourceViewResolver internalResourceViewResolver() {
+//        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+//        resolver.setPrefix("/WEB-INF/jsp/");
+//        resolver.setSuffix(".jsp");
+//        resolver.setOrder(1000);
+//        return resolver;
+//    }
 
 }
