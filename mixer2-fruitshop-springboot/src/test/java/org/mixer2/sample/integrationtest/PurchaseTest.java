@@ -1,6 +1,7 @@
 package org.mixer2.sample.integrationtest;
 
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
 
 import java.util.concurrent.TimeUnit;
 
@@ -39,13 +40,39 @@ public class PurchaseTest {
         assertTrue(driver.findElement(By.id("content")).getText().contains("Hello World !"));
 
         // go catgory page ("berry") and assert
-        driver.findElement(By.id("categoryList")).findElements(By.tagName("a")).get(0).click();
+        driver.findElement(By.id("categoryList"))//
+                .findElements(By.tagName("a")).get(0).click();
+        assertTrue(driver.findElement(By.id("categoryName")).getText().contains("berry"));
 
         // go item page ("stwawberry") and assert
-        driver.findElement(By.id("itemTable")).findElements(By.tagName("td")).get(0).findElements(By.tagName("a"))
-                .get(0).click();
+        driver.findElement(By.id("itemTable")) //
+                .findElements(By.tagName("td")).get(0) //
+                .findElements(By.tagName("a")).get(0) //
+                .click();
+        assertTrue(driver.findElement(By.id("itemName")).getText().contains("strawberry"));
 
-        Thread.sleep(5000);
+        // add to cart
+        driver.findElement(By.id("addToCart")).click();
+        String itemName = driver.findElement(By.id("cartTbody"))//
+                .findElements(By.className("itemName")).get(0).getText().trim();
+        assertTrue(itemName.contains("strawberry"));
+
+        // proceed checkout (shipping form)
+        driver.findElement(By.id("proceedToCheckout")).click();
+        
+        // input shipping and assert
+        driver.findElement(By.id("firstName")).sendKeys("John");
+        driver.findElement(By.id("lastName")).sendKeys("Doh");
+        driver.findElement(By.id("zipCode")).sendKeys("99999");
+        driver.findElement(By.id("address")).sendKeys("foo bar street 99");
+        driver.findElement(By.id("goToConfirmation")).click();
+        String itemName2 = driver.findElement(By.id("cartTbody"))//
+                .findElements(By.className("itemName")).get(0).getText().trim();
+        assertTrue(itemName2.contains("strawberry"));
+        assertTrue(driver.findElement(By.id("shipToAddress")).getText().contains("foo bar street 99"));
+        
+        // order complete
+        driver.findElement(By.id("orderComplete")).click();
     }
 
     @BeforeClass
