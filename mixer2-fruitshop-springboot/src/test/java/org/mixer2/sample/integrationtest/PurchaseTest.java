@@ -32,6 +32,44 @@ public class PurchaseTest {
 
     protected static Server server;
 
+    @BeforeClass
+    @SuppressWarnings("static-access")
+    public static void beforeClass() throws Exception {
+        server = new Server();
+        server.main(new String[] {});
+    }
+
+    @AfterClass
+    @SuppressWarnings("static-access")
+    public static void afterClass() throws Exception {
+        server.close();
+    }
+
+    @Before
+    public void before() throws Exception {
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        FirefoxProfile profile = new FirefoxProfile();
+        profile.setPreference("browser.private.browsing.autostart", true);
+        profile.setPreference("browser.privatebrowsing.dont_prompt_on_enter", true);
+        profile.setEnableNativeEvents(false);
+        FirefoxBinary ffbin = new FirefoxBinary();
+        driver = new FirefoxDriver(ffbin, profile, capabilities);
+
+        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(15, TimeUnit.SECONDS);
+        driver.manage().timeouts().setScriptTimeout(15, TimeUnit.SECONDS);
+        int width = 1000;
+        int height = 600;
+        driver.manage().window().setSize(new Dimension(width, height));
+    }
+
+    @After
+    public void after() throws Exception {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+
     @Ignore // !!! un-comment out here !!!
     @Test
     public void purchase() throws Exception {
@@ -73,44 +111,6 @@ public class PurchaseTest {
         
         // order complete
         driver.findElement(By.id("orderComplete")).click();
-    }
-
-    @BeforeClass
-    @SuppressWarnings("static-access")
-    public static void beforeClass() throws Exception {
-        server = new Server();
-        server.main(new String[] {});
-    }
-
-    @AfterClass
-    @SuppressWarnings("static-access")
-    public static void afterClass() throws Exception {
-        server.close();
-    }
-
-    @Before
-    public void before() throws Exception {
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        FirefoxProfile profile = new FirefoxProfile();
-        profile.setPreference("browser.private.browsing.autostart", true);
-        profile.setPreference("browser.privatebrowsing.dont_prompt_on_enter", true);
-        profile.setEnableNativeEvents(false);
-        FirefoxBinary ffbin = new FirefoxBinary();
-        driver = new FirefoxDriver(ffbin, profile, capabilities);
-
-        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
-        driver.manage().timeouts().pageLoadTimeout(15, TimeUnit.SECONDS);
-        driver.manage().timeouts().setScriptTimeout(15, TimeUnit.SECONDS);
-        int width = 1000;
-        int height = 600;
-        driver.manage().window().setSize(new Dimension(width, height));
-    }
-
-    @After
-    public void after() throws Exception {
-        if (driver != null) {
-            driver.quit();
-        }
     }
 
 }
