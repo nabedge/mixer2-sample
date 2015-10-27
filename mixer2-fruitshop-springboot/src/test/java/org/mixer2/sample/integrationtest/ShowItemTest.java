@@ -26,7 +26,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
  * with "@Ignore".
  *
  */
-//@Ignore // !!! un-comment out here !!!
+@Ignore // !!! un-comment out here !!!
 public class ShowItemTest {
 
     protected WebDriver driver;
