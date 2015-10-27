@@ -26,7 +26,8 @@ import org.openqa.selenium.remote.DesiredCapabilities;
  * with "@Ignore".
  *
  */
-public class PurchaseTest {
+//@Ignore // !!! un-comment out here !!!
+public class ShowItemTest {
 
     protected WebDriver driver;
 
@@ -70,7 +71,6 @@ public class PurchaseTest {
         }
     }
 
-    @Ignore // !!! un-comment out here !!!
     @Test
     public void purchase() throws Exception {
         // go top page and assert
