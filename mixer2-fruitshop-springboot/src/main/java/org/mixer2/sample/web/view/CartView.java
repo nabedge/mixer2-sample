@@ -20,13 +20,12 @@ import org.mixer2.sample.web.util.RequestUtil;
 import org.mixer2.sample.web.view.helper.SectionHelper;
 import org.mixer2.spring.webmvc.AbstractMixer2XhtmlView;
 import org.mixer2.xhtml.PathAdjuster;
-import org.mixer2.xhtml.exception.TagTypeUnmatchException;
 
 public class CartView extends AbstractMixer2XhtmlView {
 
     @Override
     protected Html renderHtml(Html html, Map<String, Object> model, HttpServletRequest request,
-            HttpServletResponse response) throws TagTypeUnmatchException {
+            HttpServletResponse response) {
 
         Cart cart = (Cart) model.get("cart");
 
@@ -45,7 +44,7 @@ public class CartView extends AbstractMixer2XhtmlView {
         return html;
     }
 
-    private void replaceCartForm(Html html, Cart cart) throws TagTypeUnmatchException {
+    private void replaceCartForm(Html html, Cart cart) {
 
         List<CartItem> itemList = cart.getReadOnlyItemList();
 

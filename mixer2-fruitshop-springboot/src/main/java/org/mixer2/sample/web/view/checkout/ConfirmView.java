@@ -22,13 +22,12 @@ import org.mixer2.sample.web.view.helper.SectionHelper;
 import org.mixer2.sample.web.view.helper.TransactionTokenHelper;
 import org.mixer2.spring.webmvc.AbstractMixer2XhtmlView;
 import org.mixer2.xhtml.PathAdjuster;
-import org.mixer2.xhtml.exception.TagTypeUnmatchException;
 
 public class ConfirmView extends AbstractMixer2XhtmlView {
 
     @Override
     protected Html renderHtml(Html html, Map<String, Object> model, HttpServletRequest request,
-            HttpServletResponse response) throws TagTypeUnmatchException {
+            HttpServletResponse response) {
 
         Cart cart = (Cart) model.get("cart");
         Shipping shipping = (Shipping) model.get("shipping");
@@ -56,7 +55,7 @@ public class ConfirmView extends AbstractMixer2XhtmlView {
         return html;
     }
 
-    private void replaceCartTable(Html html, Cart cart, Shipping shipping) throws TagTypeUnmatchException {
+    private void replaceCartTable(Html html, Cart cart, Shipping shipping) {
         Table cartTable = html.getBody().getById("cartTable", Table.class);
         Tbody cartTbody = cartTable.getTbody().get(0);
 
@@ -106,7 +105,7 @@ public class ConfirmView extends AbstractMixer2XhtmlView {
 
     }
 
-    private void replaceShipToAddress(Html html, Shipping shipping) throws TagTypeUnmatchException {
+    private void replaceShipToAddress(Html html, Shipping shipping) {
         // name
         Span shipToNameSpan = html.getBody().getById("shipToName", Span.class);
         shipToNameSpan.unsetContent();
@@ -117,7 +116,7 @@ public class ConfirmView extends AbstractMixer2XhtmlView {
         shipToAddressSpan.getContent().add(shipping.getAddress() + " " + shipping.getZipCode());
     }
 
-    private void replaceOrderCompleteForm(Html html) throws TagTypeUnmatchException {
+    private void replaceOrderCompleteForm(Html html) {
         String ctx = RequestUtil.getContextPath();
         Form form = html.getById("orderCompleteForm", Form.class);
         form.setMethod("post");

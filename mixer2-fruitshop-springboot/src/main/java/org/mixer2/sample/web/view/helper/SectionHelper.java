@@ -10,7 +10,6 @@ import org.mixer2.jaxb.xhtml.Li;
 import org.mixer2.jaxb.xhtml.Ul;
 import org.mixer2.sample.dto.Category;
 import org.mixer2.sample.web.util.RequestUtil;
-import org.mixer2.xhtml.exception.TagTypeUnmatchException;
 
 /**
  * Helper class for handle sidebar of html template.
@@ -20,7 +19,7 @@ public class SectionHelper {
     @SuppressWarnings("unused")
     private static Logger logger = Logger.getLogger(SectionHelper.class);
 
-    public static void rewriteHeader(Html html) throws TagTypeUnmatchException {
+    public static void rewriteHeader(Html html) {
 
         String ctx = RequestUtil.getContextPath();
 
@@ -32,7 +31,7 @@ public class SectionHelper {
 
     }
 
-    public static void rewiteFooter(Html html) throws TagTypeUnmatchException {
+    public static void rewiteFooter(Html html) {
         // TODO
     }
 
@@ -40,9 +39,8 @@ public class SectionHelper {
      * rewrite side bar. replace category list ul/li tags on sidebar by category table data. and link to view cart
      * @param html
      * @param categoryList
-     * @throws TagTypeUnmatchException
      */
-    public static void rewriteSideBar(Html html, List<Category> categoryList) throws TagTypeUnmatchException {
+    public static void rewriteSideBar(Html html, List<Category> categoryList) {
 
         Div sideBar = html.getBody().getById("sidebar", Div.class);
         // get category list ul

@@ -12,13 +12,12 @@ import org.mixer2.sample.web.util.RequestUtil;
 import org.mixer2.sample.web.view.helper.SectionHelper;
 import org.mixer2.spring.webmvc.AbstractMixer2XhtmlView;
 import org.mixer2.xhtml.PathAdjuster;
-import org.mixer2.xhtml.exception.TagTypeUnmatchException;
 
 public class ThankyouView extends AbstractMixer2XhtmlView {
 
     @Override
     protected Html renderHtml(Html html, Map<String, Object> model, HttpServletRequest request,
-            HttpServletResponse response) throws TagTypeUnmatchException {
+            HttpServletResponse response) {
 
         // replace anchor link to top page
         String ctx = RequestUtil.getContextPath();

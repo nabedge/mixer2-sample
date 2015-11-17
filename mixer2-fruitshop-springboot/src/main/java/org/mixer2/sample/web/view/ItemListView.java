@@ -21,13 +21,12 @@ import org.mixer2.sample.web.util.RequestUtil;
 import org.mixer2.sample.web.view.helper.SectionHelper;
 import org.mixer2.spring.webmvc.AbstractMixer2XhtmlView;
 import org.mixer2.xhtml.PathAdjuster;
-import org.mixer2.xhtml.exception.TagTypeUnmatchException;
 
 public class ItemListView extends AbstractMixer2XhtmlView {
 
     @Override
     protected Html renderHtml(Html html, Map<String, Object> model, HttpServletRequest request,
-            HttpServletResponse response) throws TagTypeUnmatchException {
+            HttpServletResponse response) {
 
         // embed category list on side bar
         @SuppressWarnings("unchecked")
@@ -52,7 +51,7 @@ public class ItemListView extends AbstractMixer2XhtmlView {
         return html;
     }
 
-    private void replaceItemBox(Html html, List<Item> itemList) throws TagTypeUnmatchException {
+    private void replaceItemBox(Html html, List<Item> itemList) {
 
         // get contextPath
         String ctx = RequestUtil.getContextPath();

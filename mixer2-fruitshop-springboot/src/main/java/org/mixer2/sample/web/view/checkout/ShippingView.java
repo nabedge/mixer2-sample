@@ -17,7 +17,6 @@ import org.mixer2.sample.web.util.RequestUtil;
 import org.mixer2.sample.web.view.helper.SectionHelper;
 import org.mixer2.spring.webmvc.AbstractMixer2XhtmlView;
 import org.mixer2.xhtml.PathAdjuster;
-import org.mixer2.xhtml.exception.TagTypeUnmatchException;
 import org.mixer2.xhtml.util.FormUtil;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
@@ -28,8 +27,7 @@ public class ShippingView extends AbstractMixer2XhtmlView {
 
     @Override
     protected Html renderHtml(Html html, Map<String, Object> model, HttpServletRequest request,
-            HttpServletResponse response) throws TagTypeUnmatchException, IllegalAccessException,
-            InvocationTargetException {
+            HttpServletResponse response) throws IllegalAccessException, InvocationTargetException {
 
         Shipping shipping = (Shipping) model.get("shipping");
         boolean redirected = (Boolean) model.get("redirected");
@@ -55,8 +53,8 @@ public class ShippingView extends AbstractMixer2XhtmlView {
         return html;
     }
 
-    private void replaceShippingForm(Html html, Shipping shipping) throws TagTypeUnmatchException,
-            IllegalAccessException, InvocationTargetException {
+    private void replaceShippingForm(Html html, Shipping shipping)
+            throws IllegalAccessException, InvocationTargetException {
 
         // populate form tag
         Form shippingForm = html.getBody().getById("shippingForm", Form.class);
@@ -73,7 +71,7 @@ public class ShippingView extends AbstractMixer2XhtmlView {
         shippingForm.setAction(ctx + "/checkout/confirm");
     }
 
-    private void replaceErrorMessage(Html html, Errors errors) throws TagTypeUnmatchException {
+    private void replaceErrorMessage(Html html, Errors errors) {
 
         Form shippingForm = html.getBody().getById("shippingForm", Form.class);
 
@@ -106,7 +104,7 @@ public class ShippingView extends AbstractMixer2XhtmlView {
         shippingForm.removeDescendants("remove", Span.class);
     }
 
-    private void removeAllErrorMessages(Html html) throws TagTypeUnmatchException {
+    private void removeAllErrorMessages(Html html) {
         Form shippingForm = html.getBody().getById("shippingForm", Form.class);
         shippingForm.removeDescendants("errorMessage", Span.class);
     }
